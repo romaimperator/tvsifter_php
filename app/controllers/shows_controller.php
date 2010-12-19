@@ -1,0 +1,72 @@
+<?php
+
+class ShowsController extends AppController {
+    
+    /**
+     * Returns the date of the next episode of a show
+     */
+    function get_next_airing($show_id) {
+        // Sanitize just to be safe
+        $show_id = Sanitize::clean($show_id);
+
+        // Query for the date
+        return $this->Show->get_next_airing($show_id);
+    }
+
+
+    /**
+     * Returns the date of the last episode of a show
+     */
+    function get_last_airing($show_id) {
+        // Sanitize just to be safe
+        $show_id = Sanitize::clean($show_id);
+
+        // Query for the date
+        return $this->Show->get_last_airing($show_id);
+    }
+
+
+    // This function should be removed before going live.
+    // It grabs the tvrage.com episode list page for the $show_name and the
+    // uses the show model's parser to store the show data.
+    function refresh($show_name, $refresh=false) {
+        $show_name = Sanitize::clean($show_name);
+        // Find the first show that matches the name given
+        $params = array(
+            'conditions' => array(
+                'Show.name' => $show_name,
+            ),
+            'contain' => false,
+        );
+
+        // check if this show has already been acquired
+        $show = $this->Show->find('first', $params);
+        $this->Show->id = $show['Show']['id'];
+
+        // If the show doesn't yet exist, create it
+        if ( ! $show) {
+            $this->Show->create();
+            $this->Show->set('name', $show_name);
+
+            // set the display name as the first letter capitalized,
+            // underscores removed name
+            $display_name = ucwords(str_replace("_", " ", $show_name));
+            $this->Show->set('display_name', $display_name);
+            $this->Show->save();
+            $show = $this->Show->find('first', $params);
+            $this->Show->read(null, $show['Show']['id']);
+        }
+
+        // If the refresh option is there or the html has not been cached yet,
+        // retrieve the page from TVRage.
+        $show_addr = 'http://www.tvrage.com/'.$show_name.'/episode_list/all';
+
+        // the utf8 decode is necessary because otherwise the show names
+        // must be decoded twice before rendered to view
+        $episode_list_html = utf8_decode(file_get_contents($show_addr));
+        $this->Show->save($show);
+
+        // parse the received html and store the episode list
+        $this->set('response', $this->Show->parse_html($episode_list_html));
+    }
+}

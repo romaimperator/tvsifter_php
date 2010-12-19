@@ -1,4 +1,4 @@
-USE tv_show_scraper;
+USE tvsifter;
 
 INSERT INTO groups (name, created, modified) VALUES ('admin', now(), now());
 INSERT INTO groups (name, created, modified) VALUES ('manager', now(), now());
