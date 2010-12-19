@@ -1,30 +1,34 @@
-<?php $shows = $this->requestAction(array('controller' => 'users', 'action' => 'get_shows')); ?>
-
 <?php
+    $shows = $this->requestAction(array('controller' => 'users', 'action' => 'get_shows'));
+
     $date_format = 'F j, Y';
+
+    $html->css('users/shows', null, array('inline' => FALSE));
 ?>
 
-<h4>Your Shows:</h4>
+<div id="shows">
+    <h4>Your Shows:</h4>
 
-<?php if (isset($shows) && ! empty($shows)): ?>
+    <?php if (isset($shows) && ! empty($shows)): ?>
 
-    <?php foreach($shows as $show): ?>
+        <?php foreach($shows as $show): ?>
 
-        <?php
-            $last_airing = $this->requestAction(array('controller' => 'shows', 'action' => 'get_last_airing'), array('pass' => array($show['Show']['id'])));
-            $next_airing = $this->requestAction(array('controller' => 'shows', 'action' => 'get_next_airing'), array('pass' => array($show['Show']['id'])));
-        ?>
+            <?php
+                $last_airing = $this->requestAction(array('controller' => 'shows', 'action' => 'get_last_airing'), array('pass' => array($show['Show']['id'])));
+                $next_airing = $this->requestAction(array('controller' => 'shows', 'action' => 'get_next_airing'), array('pass' => array($show['Show']['id'])));
+            ?>
 
-        <div class="show">
-            <?php echo $html->link($show['Show']['display_name'], array('controller' => 'shows', 'action' => 'view', $show['Show']['name'])); ?>
-            <p>Last Airing: <?php echo date($date_format, strtotime($last_airing)); ?></p>
-            <p>Next Airing: <?php echo date($date_format, strtotime($next_airing)); ?></p>
-        </div>
+            <div class="show">
+                <?php echo $html->link($show['Show']['display_name'], array('controller' => 'shows', 'action' => 'view', $show['Show']['name'])); ?>
+                <p>Last Airing: <?php echo date($date_format, strtotime($last_airing)); ?></p>
+                <p>Next Airing: <?php echo date($date_format, strtotime($next_airing)); ?></p>
+            </div>
 
-    <?php endforeach; ?>
+        <?php endforeach; ?>
 
-<?php else: ?>
+    <?php else: ?>
 
-    <p>You are not currently tracking any shows. Add a show <?php echo $html->link('here', array('controller' => 'users', 'action' => 'add_show')); ?>. </p>
+        <p>You are not currently tracking any shows. Add a show <?php echo $html->link('here', array('controller' => 'users', 'action' => 'add_show')); ?>. </p>
 
-<?php endif; ?>
+    <?php endif; ?>
+</div>

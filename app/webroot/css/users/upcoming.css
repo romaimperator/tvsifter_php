@@ -1,0 +1,27 @@
+.upcoming_date {
+    text-align: left;
+}
+
+.upcoming_show {
+    text-align: right;
+}
+
+.upcoming_episode {
+
+}
+
+.upcoming_details {
+
+}
+
+#episodes {
+    margin: 15px;
+    padding: 0px;
+    width: 800px;
+}
+
+#upcoming_table {
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+}
