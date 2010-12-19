@@ -16,6 +16,26 @@ class UsersController extends AppController {
         }
     }
 
+    
+    /**
+     * Returns the list of upcoming episodes from now to the $date in the
+     * future
+     */
+    function get_upcoming_episodes($date) {
+        // Sanitize just to be safe
+        $date = Sanitize::clean($date);
+
+        // $id = $this->Auth->user('id');
+        $id = 1;
+
+        if ($id) {
+            // Run query
+            return $this->User->get_upcoming_episodes($id, $date);
+        } else {
+            $this->redirect(array('admin' => FALSE, 'controller' => 'users', 'action' => 'login'));
+        }
+    }
+
 
     /**
      * Generates the user's account page

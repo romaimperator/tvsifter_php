@@ -58,6 +58,9 @@ class User extends AppModel {
             'link' => array(
                 'User', // link the shows to the user
             ),
+            'order' => array(
+                'Show.display_name ASC', // sort by the name
+            ),
         );
 
         // Perform the query to get the shows
@@ -65,5 +68,44 @@ class User extends AppModel {
 
         // Return the cleaned data
         return Sanitize::clean($shows);
+    }
+
+
+    /**
+     * Returns the episodes that air between today and $date in the future
+     */
+    function get_upcoming_episodes($user_id, $date) {
+        // Ensure that the date is clean
+        $date = Sanitize::clean($date);
+
+        // Import the Episode model
+        App::import('Model', 'Episode');
+        $this->Episode = new Episode();
+
+        // Set the query parameters
+        $params = array(
+            'conditions' => array(
+                'shows_users.user_id =' => $user_id,
+                'Episode.air_date >=' => date('Y-m-d', time($date)),
+            ),
+            'contain' => FALSE,
+            'link' => array(
+                'shows_users' => array(
+                    'conditions' => 'shows_users.show_id = Episode.show_id',
+                ),
+                'Show' => array(
+                    'conditions' => 'Episode.show_id = Show.id',
+                ),
+            ),
+            'order' => array(
+                'Episode.air_date ASC',
+            ),
+        );
+
+        // Perform the query to get the episodes
+        $episodes = $this->Episode->cache('all', $params);
+
+        // Return the cleaned data
+        return Sanitize::clean($episodes);
     }
 }
