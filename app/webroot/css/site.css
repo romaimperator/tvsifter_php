@@ -1,3 +1,23 @@
 #footer {
     clear: both;
 }
+
+#header {
+    background-color: blue;
+    width: 900px;
+    height: 60px;
+    margin: 0px;
+    padding: 0px;
+    position: relative;
+}
+
+body, html {
+    margin: 0px;
+    padding: 0px;
+}
+
+head {
+    display: none;
+    margin: 0px;
+    padding: 0px;
+}

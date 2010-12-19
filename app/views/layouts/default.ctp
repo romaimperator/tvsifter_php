@@ -22,22 +22,23 @@
 <head>
 	<?php echo $this->Html->charset(); ?>
 	<title>
-		<?php __('CakePHP: the rapid development php framework:'); ?>
-		<?php echo $title_for_layout; ?>
+                TVSifter.com|<?php echo $title_for_layout; ?>
 	</title>
 	<?php
 		echo $this->Html->meta('icon');
 
 		//echo $this->Html->css('cake.generic');
-                echo $this->Html->css('site.css');
+                echo $html->css('reset.css', null, array('inline' => FALSE));
+                echo $html->css('site.css', null, array('inline' => FALSE));
 
-		echo $scripts_for_layout;
+		echo $asset->scripts_for_layout('css');
 	?>
 </head>
 <body>
 	<div id="container">
 		<div id="header">
-			<h1><?php echo $this->Html->link(__('CakePHP: the rapid development php framework', true), 'http://cakephp.org'); ?></h1>
+			<h1>TVSifter.com</h1>
+                        <?php echo $this->element('navbar', array('cache' => FALSE)); ?>
 		</div>
 		<div id="content">
 

@@ -44,6 +44,8 @@ class UsersController extends AppController {
         //$id = $this->Auth->user('id');
         $id = 1;
 
+        //$this->asset->scripts_for_layout();
+
         if ($id) {
             $this->set('user_id', $id);
         } else {
