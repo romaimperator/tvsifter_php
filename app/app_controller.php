@@ -10,7 +10,7 @@ class AppController extends Controller {
     );
 
     var $components = array(
-        'DebugKit.Toolbar',
+        'DebugKit.Toolbar' => array('panels' => array('Interactive.interactive')),
     );
 
     function __construct() {

@@ -1,4 +1,4 @@
-<?php echo $html->css('navbar.css', null, array('inline' => FALSE)); ?>
+<?php echo $html->css('navbar', null, array('inline' => FALSE)); ?>
 
 <div class="navbar">
 <?php

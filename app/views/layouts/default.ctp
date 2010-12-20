@@ -30,6 +30,7 @@
 		//echo $this->Html->css('cake.generic');
                 echo $html->css('reset.css', null, array('inline' => FALSE));
                 echo $html->css('site.css', null, array('inline' => FALSE));
+                echo $html->css('navbar', null, array('inline' => FALSE));
 
 		echo $asset->scripts_for_layout('css');
 	?>
