@@ -12,3 +12,9 @@ INSERT INTO aros (model, foreign_key, alias, lft, rght) VALUES ('User', 1, NULL,
 INSERT INTO aros_acos (aro_id, aco_id, _create, _read, _update, _delete) VALUES (1, 1, 1, 1, 1, 1);
 
 INSERT INTO users (username, password, email, group_id, created, modified) VALUES ('admin', '442dbbc8dc23a4e1a121581bab9e4390a72e2d14', 'admin@gmail.com', 1, now(), now());
+INSERT INTO users (username, password, email, group_id, created, modified) VALUES ('broseph', 'passwordhashthatihaventimplementedyet', 'broseph@gmail.com', 3, now(), now());
+
+INSERT INTO friends (user_id, friend_id) VALUES (1, 2);
+
+INSERT INTO activity (`update`, user_id) VALUES ('Broseph has just watched 2 episodes of House', 2);
+INSERT INTO activity (`update`, user_id) VALUES ('Broseph has liked the show 24', 2);

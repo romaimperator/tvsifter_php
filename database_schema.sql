@@ -10,6 +10,23 @@ DROP TABLE IF EXISTS groups;
 DROP TABLE IF EXISTS aros;
 DROP TABLE IF EXISTS acos;
 DROP TABLE IF EXISTS aros_acos;
+DROP TABLE IF EXISTS friends;
+DROP TABLE IF EXISTS activity;
+
+CREATE TABLE activity (
+    id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `update` text,
+    user_id integer
+) ENGINE = MyISAM DEFAULT CHARACTER SET = utf8 COLLATE = utf8_unicode_ci;
+
+CREATE INDEX activity_user_id ON activity (user_id);
+
+CREATE TABLE friends (
+    user_id integer NOT NULL,
+    friend_id integer NOT NULL
+) ENGINE = MyISAM;
+
+CREATE UNIQUE INDEX USER_FRIEND_KEY ON friends (user_id, friend_id);
 
 CREATE TABLE shows_users (
     show_id integer NOT NULL,
@@ -103,7 +120,7 @@ CREATE TABLE aros_acos (
     _read varchar(2) NOT NULL,
     _update varchar(2) NOT NULL,
     _delete varchar(2) NOT NULL
-) ENGINE = MYISAM;
+) ENGINE = MyISAM;
 
 CREATE UNIQUE INDEX ARO_ACO_KEY ON aros_acos (aro_id, aco_id);
 
