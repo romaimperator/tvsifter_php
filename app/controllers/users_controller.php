@@ -1,6 +1,19 @@
 <?php
 
 class UsersController extends AppController {
+    /**
+     * Returns the list of friend ids of the currently logged in user
+     */
+    function get_friends() {
+        //$this->layout = 'ajax';
+        $id = 1;
+
+        if ($id) {
+            return $this->User->get_friend_info($id);
+        } else {
+            $this->redirect(array('admin' => FALSE, 'controller' => 'users', 'action' => 'login'));
+        }
+    }
     
     /**
      * Returns the list of shows of the currently logged in user

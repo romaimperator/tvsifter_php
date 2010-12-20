@@ -7,12 +7,89 @@ class User extends AppModel {
     // Set the association to the Show model
     var $hasAndBelongsToMany = array(
         'Show',
+        'Friend' => array(
+            'foreignKey' => 'user_id', 
+            'associationForeignKey' => 'friend_id',
+            'joinTable' => 'friends',
+        ),
     );
 
     // Set the association to the activity model
     var $hasMany = array(
         'Activity',
     );
+
+
+    /**
+     * Returns a list of friend ids
+     */
+    function get_friend_ids($user_id) {
+        // Sanitize just to be safe
+        $user_id = Sanitize::clean($user_id);
+        
+        // Setup parameters
+        $params = array(
+            'contain' => FALSE,
+            'conditions' => array(
+                'User.id =' => $user_id,
+            ),
+            'fields' => array(
+                'Friend.friend_id',
+            ),
+            'link' => array(
+                'Friend' => array(
+                    'fields' => array(
+                        'Friend.friend_id',
+                    ),
+                    'conditions' => array(
+                        'Friend.user_id = User.id',
+                    ),
+                ),
+            ),
+        );
+
+        // Perform query
+        $friends = $this->cache('all', $params);
+
+        // Return the cleaned data
+        return Sanitize::clean($friends);
+    }
+
+
+    /**
+     * Get the info of this user's friends
+     */
+    function get_friend_info($user_id) {
+        // Sanitize just to be safe
+        $user_id = Sanitize::clean($user_id);
+
+        // Get the list of friend ids
+        $friend_ids = $this->get_friend_ids($user_id);
+
+        // Flatten into an array of ids
+        $ids = array();
+        foreach ($friend_ids as $id) {
+            $ids[] = $id['Friend']['friend_id'];
+        }
+
+        // Setup parameters
+        $params = array(
+            'contain' => FALSE,
+            'conditions' => array(
+                'User.id' => $ids,
+            ),
+            'fields' => array(
+                'User.id',
+                'User.username',
+            ),
+        );
+
+        // Perform query
+        $friends = $this->cache('all', $params);
+
+        // Return cleaned data
+        return Sanitize::clean($friends);
+    }
 
 
     /**
