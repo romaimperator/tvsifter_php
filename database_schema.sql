@@ -16,21 +16,27 @@ DROP TABLE IF EXISTS activity;
 CREATE TABLE activity (
     id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `update` text,
-    user_id integer
+    user_id integer,
+    created datetime,
+    modified datetime
 ) ENGINE = MyISAM DEFAULT CHARACTER SET = utf8 COLLATE = utf8_unicode_ci;
 
 CREATE INDEX activity_user_id ON activity (user_id);
 
 CREATE TABLE friends (
     user_id integer NOT NULL,
-    friend_id integer NOT NULL
+    friend_id integer NOT NULL,
+    created datetime,
+    modified datetime
 ) ENGINE = MyISAM;
 
 CREATE UNIQUE INDEX USER_FRIEND_KEY ON friends (user_id, friend_id);
 
 CREATE TABLE shows_users (
     show_id integer NOT NULL,
-    user_id integer NOT NULL
+    user_id integer NOT NULL,
+    created datetime,
+    modified datetime
 ) ENGINE = MyISAM DEFAULT CHARACTER SET = utf8 COLLATE = utf8_unicode_ci;
 
 CREATE UNIQUE INDEX SHOW_USER_KEY ON shows_users (show_id, user_id);
