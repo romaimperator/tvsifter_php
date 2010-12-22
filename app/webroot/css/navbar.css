@@ -1,12 +1,33 @@
 div.navbar {
-    float:right;
+    float:left;
 }
 
 .navbar a {
     text-decoration: none;
-    color: black;
+    color: #000;
 }
 
-.navbar a:hover {
-    text-decoration: underline;
+.nav_item {
+    width: 150px;
+    height: 25px;
+    line-height: 25px;
 }
+
+.nav_item a {
+    font-size: 14px;
+    padding-left: 10px;
+    width: 150px;
+    display: block;
+}
+
+.nav_item:hover {
+    /*background-color: #f2f2f4;*/
+    background-color: rgba(32,120,255,0.5);
+}
+
+.nav_selected {
+    background-color: rgba(32,120,255,0.9);
+}
+.nav_selected:hover {
+    background-color: rgba(32,120,255,0.9);
+} 

@@ -8,18 +8,19 @@ class Activity extends AppModel {
 
 
     /**
-     * Returns the activity from the last 7 days, limited if provided
+     * Returns the activity from the last 7 days, limited if provided, of the
+     * user_ids specified
      */
-    function get_recent_activity($user_id, $limit=FALSE) {
+    function get_recent_activity($user_ids, $limit=FALSE) {
         // Sanitize the user id
-        $user_id = Sanitize::clean($user_id);
+        $user_ids = Sanitize::clean($user_ids);
 
         // Setup the query parameters
         $params = array(
             'contain' => FALSE, // don't save anything else
             'conditions' => array(
-                'Activity.user_id =' => $user_id, // only grab this friend's
-                'Activity.created >=' => date('Y-m-d H:i:s', time('-7 days')), // only grab activity within 7 days
+                'Activity.user_id' => $user_ids, // only grab these friend's
+                'Activity.created >=' => date('Y-m-d', strtotime('-7 days')), // only grab activity within 7 days
             ),
             'order' => array(
                 'Activity.created DESC', // order so the most recent is first

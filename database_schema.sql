@@ -11,9 +11,9 @@ DROP TABLE IF EXISTS aros;
 DROP TABLE IF EXISTS acos;
 DROP TABLE IF EXISTS aros_acos;
 DROP TABLE IF EXISTS friends;
-DROP TABLE IF EXISTS activity;
+DROP TABLE IF EXISTS activities;
 
-CREATE TABLE activity (
+CREATE TABLE activities (
     id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `update` text,
     user_id integer,
@@ -21,7 +21,7 @@ CREATE TABLE activity (
     modified datetime
 ) ENGINE = MyISAM DEFAULT CHARACTER SET = utf8 COLLATE = utf8_unicode_ci;
 
-CREATE INDEX activity_user_id ON activity (user_id);
+CREATE INDEX activity_user_id ON activities (user_id);
 
 CREATE TABLE friends (
     user_id integer NOT NULL,

@@ -1,5 +1,7 @@
 <?php
-    $episodes = $this->requestAction(array('controller' => 'users', 'action' => 'get_upcoming_episodes'), array('pass' => array('+1 week')));
+    $episodes = $this->requestAction(array('controller' => 'users', 'action' => 'get_upcoming_episodes'), array('pass' => array('+6 week')));
+
+    $episodes[1] = $episodes[0];
     
     $date_format = 'F j, Y';
 
@@ -7,7 +9,9 @@
 ?>
 
 <div id="episodes">
-    <h4>Upcoming Episodes:</h4>
+    <div class="header4">
+        <h4>Upcoming Episodes:</h4>
+    </div>
 
     <?php if ( ! empty($episodes)): ?>
 
@@ -39,6 +43,8 @@
         </table>
 
     <?php else: ?>
+
+        <p>There are no upcoming episodes.</p>
 
     <?php endif; ?>
 </div>

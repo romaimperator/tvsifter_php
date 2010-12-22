@@ -4,13 +4,6 @@
 App::import('Sanitize');
 
 class Show extends AppModel {
-    // Set the behaviors
-    var $actsAs = array(
-        'Containable',
-        'Cacheable',
-        'Linkable',
-    );
-
     // Set the association to the User model
     var $hasAndBelongsToMany = array(
         'User',

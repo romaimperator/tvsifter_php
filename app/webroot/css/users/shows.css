@@ -1,7 +1,9 @@
 #shows {
-    width: 390px;
-    padding: 10px;
+    width: 512px;
+    padding: 0px;
     margin: 0px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     float: left;
 }
 
@@ -12,5 +14,5 @@ div.show p {
 
 div.show {
     margin: 0px;
-    padding: 5px;
+    padding: 0px;
 }

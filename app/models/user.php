@@ -21,6 +21,47 @@ class User extends AppModel {
 
 
     /**
+     * Returns the user info
+     */
+    function get_user_info($user_id) {
+        // Sanitize to be safe
+        $user_id = Sanitize::clean($user_id);
+
+        // Setup parameters
+        $params = array(
+            'contain' => FALSE, // save nothing else
+            'conditions' => array(
+                'User.id =' => $user_id, // match only this user
+            ),
+        );
+
+        // Perform query
+        $user = $this->cache('first', $params);
+
+        // Return cleaned data
+        return Sanitize::clean($user);
+    }
+
+
+    /**
+     * Returns a list of the recent activity from the user's friends
+     */
+    function get_friend_activity($user_id) {
+        // Sanitize to be safe
+        $user_id = Sanitize::clean($user_id);
+
+        // Get the friend ids in an array
+        $friend_ids = $this->get_friend_ids($user_id);
+
+        // Get the activity for these friends...say the last 10 items
+        $activities = $this->Activity->get_recent_activity($friend_ids, 10);
+
+        // Return the sanitized data
+        return Sanitize::clean($activities);
+    }
+
+
+    /**
      * Returns a list of friend ids
      */
     function get_friend_ids($user_id) {
@@ -51,8 +92,14 @@ class User extends AppModel {
         // Perform query
         $friends = $this->cache('all', $params);
 
+        // Flatten into an array of ids
+        $ids = array();
+        foreach ($friends as $id) {
+            $ids[] = $id['Friend']['friend_id'];
+        }
+
         // Return the cleaned data
-        return Sanitize::clean($friends);
+        return Sanitize::clean($ids);
     }
 
 
@@ -66,17 +113,11 @@ class User extends AppModel {
         // Get the list of friend ids
         $friend_ids = $this->get_friend_ids($user_id);
 
-        // Flatten into an array of ids
-        $ids = array();
-        foreach ($friend_ids as $id) {
-            $ids[] = $id['Friend']['friend_id'];
-        }
-
         // Setup parameters
         $params = array(
             'contain' => FALSE,
             'conditions' => array(
-                'User.id' => $ids,
+                'User.id' => $friend_ids,
             ),
             'fields' => array(
                 'User.id',
@@ -121,8 +162,8 @@ class User extends AppModel {
         $user_id = Sanitize::clean($user_id);
 
         // Import the show model so we can use linkable and go many-to-one
-        App::import('Model', 'Show');
-        $this->Show = new Show();
+        /*App::import('Model', 'Show');
+        $this->Show = new Show();*/
 
         // Set the query parameters
         $params = array(
@@ -139,7 +180,7 @@ class User extends AppModel {
         );
 
         // Perform the query to get the shows
-        $shows = $this->Show->cache('all', $params, array('duration' => '+1 second', 'update' => TRUE));
+        $shows = $this->Show->find('all', $params);
 
         // Return the cleaned data
         return Sanitize::clean($shows);
@@ -161,7 +202,8 @@ class User extends AppModel {
         $params = array(
             'conditions' => array(
                 'shows_users.user_id =' => $user_id,
-                'Episode.air_date >=' => date('Y-m-d', time($date)),
+                'Episode.air_date <' => date('Y-m-d', strtotime($date)),
+                'Episode.air_date >=' => date('Y-m-d', time()),
             ),
             'contain' => FALSE,
             'link' => array(
@@ -178,7 +220,7 @@ class User extends AppModel {
         );
 
         // Perform the query to get the episodes
-        $episodes = $this->Episode->cache('all', $params);
+        $episodes = $this->Episode->find('all', $params);
 
         // Return the cleaned data
         return Sanitize::clean($episodes);

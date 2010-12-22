@@ -7,7 +7,9 @@
 ?>
 
 <div id="shows">
-    <h4>Your Shows:</h4>
+    <div class="header4">
+        <h4>Your Shows:</h4>
+    </div>
 
     <?php if (isset($shows) && ! empty($shows)): ?>
 

@@ -16,5 +16,5 @@ INSERT INTO users (username, password, email, group_id, created, modified) VALUE
 
 INSERT INTO friends (user_id, friend_id, created, modified) VALUES (1, 2, now(), now());
 
-INSERT INTO activity (`update`, user_id, created, modified) VALUES ('Broseph has just watched 2 episodes of House', 2, now(), now());
-INSERT INTO activity (`update`, user_id, created, modified) VALUES ('Broseph has liked the show 24', 2, now(), now());
+INSERT INTO activities (`update`, user_id, created, modified) VALUES ('Broseph has just watched 2 episodes of House', 2, now(), now());
+INSERT INTO activities (`update`, user_id, created, modified) VALUES ('Broseph has liked the show 24', 2, now(), now());

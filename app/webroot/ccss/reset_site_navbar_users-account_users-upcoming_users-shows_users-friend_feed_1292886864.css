@@ -9,11 +9,12 @@ ins{text-decoration:none;}
 del{text-decoration:line-through;}
 table{border-collapse:collapse;border-spacing:0;}
 
-/* site.css (65%) */
+/* site.css (62%) */
 #footer{clear:both;}
-#header{background-color:#2078FF;width:900px;height:60px;position:relative;margin:0;padding:0;}
-body,html{margin:0;padding:0;}
+#header{background-color:#2078FF;width:1024px;height:80px;position:relative;margin:0;padding:0;}
+body,html{width:1024px;margin:0 auto;padding:0;}
 head{display:none;margin:0;padding:0;}
+#logo img{float:left;max-width:200px;max-height:100px;padding:10px;}
 
 /* navbar.css (77%) */
 div.navbar{float:right;}
@@ -35,4 +36,4 @@ div.show p{margin:0;padding:0;}
 div.show{margin:0;padding:5px;}
 
 /* users/friend_feed.css (61%) */
-#friend_feed{width:390px;margin:0 0 0 390px;padding:10px;}
+#friend_feed{width:390px;margin:0 0 0 400px;padding:10px;}

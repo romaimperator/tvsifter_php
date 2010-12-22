@@ -22,7 +22,7 @@
 <head>
 	<?php echo $this->Html->charset(); ?>
 	<title>
-                TVSifter.com|<?php echo $title_for_layout; ?>
+                tvsifter.com|<?php echo $title_for_layout; ?>
 	</title>
 	<?php
 		echo $this->Html->meta('icon');
@@ -38,10 +38,10 @@
 <body>
 	<div id="container">
 		<div id="header">
-			<h1>TVSifter.com</h1>
-                        <?php echo $this->element('navbar', array('cache' => FALSE)); ?>
+                        <div id="logo"><a href="/"><?php echo $html->image('tvsifter_logo.png'); ?></a></div>
 		</div>
 		<div id="content">
+                        <?php echo $this->element('navbar', array('cache' => FALSE)); ?>
 
 			<?php echo $this->Session->flash(); ?>
 
@@ -57,6 +57,6 @@
 			?>
 		</div>
 	</div>
-	<?php echo $this->element('sql_dump'); ?>
+	<?php //echo $this->element('sql_dump'); ?>
 </body>
 </html>

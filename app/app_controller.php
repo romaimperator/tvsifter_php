@@ -2,7 +2,7 @@
 
 class AppController extends Controller {
     var $helpers = array(
-        'Asset.asset' => array('debug' => TRUE),
+        'Asset.asset',// => array('debug' => TRUE),
         'Session',
         'Html',
         'Form',
