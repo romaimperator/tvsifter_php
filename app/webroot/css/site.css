@@ -68,7 +68,11 @@ a:hover {
 }
 
 .page_title {
-    margin-top: 25px;
-    margin-bottom: 25px;
+    padding-top: 25px;
+    padding-bottom: 25px;
     margin-left: 224px;
+}
+
+.center {
+    text-align: center;
 }

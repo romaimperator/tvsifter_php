@@ -31,3 +31,11 @@
  * ...and connect the rest of 'Pages' controller's urls.
  */
 	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
+
+        // The following are the routes for the users controller
+        Router::connect('/home', array('controller' => 'users', 'action' => 'home'));
+        Router::connect('/login', array('controller' => 'users', 'action' => 'login'));
+        Router::connect('/logout', array('controller' => 'users', 'action' => 'logout'));
+
+        // The following are the routes for the shows controller
+        Router::connect('/shows', array('controller' => 'shows', 'action' => 'index'));

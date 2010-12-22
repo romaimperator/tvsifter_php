@@ -77,13 +77,14 @@ class UsersController extends AppController {
     /**
      * Generates the user's account page
      */
-    function account() {
+    function home() {
         //$id = $this->Auth->user('id');
         $id = 1;
 
         if ($id) {
             $user = $this->User->get_user_info($id);
 
+            $this->set('selected', 1); // 1 being assigned to the Home link in navbar.ctp
             $this->set('username', $user['User']['username']);
             $this->set('user_id', $id);
         } else {

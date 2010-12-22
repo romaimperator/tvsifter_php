@@ -6,6 +6,7 @@
     $date_format = 'F j, Y';
 
     $html->css('users/upcoming', null, array('inline' => FALSE));
+    $html->script('users/upcoming.js', array('inline' => FALSE));
 ?>
 
 <div id="episodes">
@@ -35,7 +36,12 @@
                 </td>
                 <td class="upcoming_show"> <?php echo $html->link($e['Show']['display_name'], array('controller' => 'shows', 'action' => 'view', $e['Show']['name'])); ?> </td>
                 <td class="upcoming_episode"> <?php echo $e['Episode']['name']; ?> </td>
-                <td class="upcoming_details"> <a href="/#">Details</a> </td>
+                <td class="upcoming_details"> <a href="javascript:show_details(<?php echo $e['Episode']['id']; ?>)">Details</a> </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="center"><div class="hidden <?php echo $e['Episode']['id'];?>">Season: <?php echo $e['Episode']['season']; ?></div></td>
+                <td class="center"><div class="hidden <?php echo $e['Episode']['id'];?>">Episode: <?php echo $e['Episode']['episode']; ?></div></td>
             </tr>
 
         <?php endforeach; ?>

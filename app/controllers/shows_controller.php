@@ -1,16 +1,36 @@
 <?php
 
 class ShowsController extends AppController {
+
+    /**
+     * Shows the list of shows tracked by the currently logged in user
+     */
+    function index() {
+        //$user_id = $this->Auth->user('id');
+        $user_id = 1;
+
+        if ($user_id) {
+            $shows = $this->Show->get_tracked_shows($user_id);
+
+            $this->set('selected', 2); // 2 being the number assigned to the Your Shows link in navbar.ctp
+            $this->set('user_id', $user_id);
+            $this->set('shows', $shows);
+        } else {
+            $this->redirect(array('controller' => 'users', 'action' => 'login'));
+        }
+    }
     
     /**
      * Returns the date of the next episode of a show
      */
     function get_next_airing($show_id) {
-        // Sanitize just to be safe
-        $show_id = Sanitize::clean($show_id);
+        if (isset($this->params['requested'])) {
+            // Sanitize just to be safe
+            $show_id = Sanitize::clean($show_id);
 
-        // Query for the date
-        return $this->Show->get_next_airing($show_id);
+            // Query for the date
+            return $this->Show->get_next_airing($show_id);
+        }
     }
 
 
@@ -18,11 +38,13 @@ class ShowsController extends AppController {
      * Returns the date of the last episode of a show
      */
     function get_last_airing($show_id) {
-        // Sanitize just to be safe
-        $show_id = Sanitize::clean($show_id);
+        if (isset($this->params['requested'])) {
+            // Sanitize just to be safe
+            $show_id = Sanitize::clean($show_id);
 
-        // Query for the date
-        return $this->Show->get_last_airing($show_id);
+            // Query for the date
+            return $this->Show->get_last_airing($show_id);
+        }
     }
 
 

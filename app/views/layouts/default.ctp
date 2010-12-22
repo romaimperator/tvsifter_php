@@ -32,7 +32,9 @@
                 echo $html->css('site.css', null, array('inline' => FALSE));
                 echo $html->css('navbar', null, array('inline' => FALSE));
 
-		echo $asset->scripts_for_layout('css');
+                echo $this->Html->script("http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js");
+
+		echo $asset->scripts_for_layout();
 	?>
 </head>
 <body>

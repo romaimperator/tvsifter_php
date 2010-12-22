@@ -14,6 +14,39 @@ class Show extends AppModel {
         'Episode',
     );
 
+    // The output format of dates for shows
+    var $date_format = 'F j, Y';
+
+    /**
+     * Returns the shows that are being tracked by the user specified by user_id
+     */
+    function get_tracked_shows($user_id) {
+        // Sanitize to be safe
+        $user_id = Sanitize::clean($user_id);
+
+        // Setup parameters
+        $params = array(
+            'contain' => FALSE,
+            'link' => array(
+                'shows_users' => array(
+                    'conditions' => array(
+                        'shows_users.user_id =' => $user_id,
+                        'shows_users.show_id = Show.id',
+                    ),
+                ),
+            ),
+            'order' => array(
+                'Show.display_name ASC',
+            ),
+        );
+
+        // Perform query
+        $shows = $this->cache('all', $params);
+
+        // Return cleaned list
+        return Sanitize::clean($shows);
+    }
+
     /**
      * Returns the date of the next airing of a show which counts a show that
      * airs today
@@ -49,7 +82,7 @@ class Show extends AppModel {
         if ( ! isset($episode['Episode']['air_date'])) {
             return 'Not Available';
         } else {
-            return $episode['Episode']['air_date'];
+            return date($this->date_format, strtotime($episode['Episode']['air_date']));
         }
     }
 
@@ -88,7 +121,7 @@ class Show extends AppModel {
         if ( ! isset($episode['Episode']['air_date'])) {
             return 'Not Available';
         } else {
-            return $episode['Episode']['air_date'];
+            return date($this->date_format, strtotime($episode['Episode']['air_date']));
         }
     }
 
