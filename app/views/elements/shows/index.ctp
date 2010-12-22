@@ -17,10 +17,10 @@
         <table>
         <tbody>
             <tr>
-                <th class="unfollow"></th>
-                <th></th>
-                <th>Last Airing:</th>
-                <th>Next Airing:</th>
+                <th id="first_col" class="unfollow"></th>
+                <th id="second_col"></th>
+                <th id="third_col">Last Airing:</th>
+                <th id="fourth_col">Next Airing:</th>
             </tr>
 
         <?php foreach($shows as $show): ?>
@@ -30,7 +30,7 @@
                 $next_airing = $this->requestAction(array('controller' => 'shows', 'action' => 'get_next_airing'), array('pass' => array($show['Show']['id'])));
             ?>
 
-            <tr class="show">
+            <tr class="show" id="<?php echo $show['Show']['id']; ?>">
                 <td class="unfollow"><?php echo $html->image('red_x.png'); ?></td>
                 <td class="normal_td"><?php echo $html->link($show['Show']['display_name'], array('controller' => 'shows', 'action' => 'view', $show['Show']['name'])); ?></td>
                 <td class="normal_td center"><?php echo $last_airing; ?></td>

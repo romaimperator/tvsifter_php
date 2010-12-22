@@ -11,17 +11,18 @@
 .unfollow {
     padding-top: 0px;
     padding-bottom: 0px;
+    vertical-align: middle;
 }
 
 /* Provide some padding to the cells to separate the values some */
 .normal_td {
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding-top: 6px;
+    padding-bottom: 6px;
 }
 
 /* Set the table to be as wide as the body */
 #shows table {
-    width: 100%;
+    /*width: 100%;*/
 }
 
 /* Add some white space to separate the follow/unfollow from the table */
@@ -33,9 +34,23 @@
 .unfollow img {
     max-width: 15px;
     max-height: 15px;
+    border: 1px outset;
 }
 
 /* Make the cursor a pointer while over the red x */
 .unfollow img:hover {
     cursor: pointer;
+}
+
+#first_col {
+    width: 18px;
+}
+#second_col {
+    width: 214px;
+}
+#third_col {
+    width: 140px;
+}
+#fourth_col {
+    width: 140px;
 }

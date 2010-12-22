@@ -4,6 +4,11 @@
 App::import('Sanitize');
 
 class Show extends AppModel {
+    // Setup behaviors
+    var $actsAs = array(
+        'ExtendAssociations',
+    );
+
     // Set the association to the User model
     var $hasAndBelongsToMany = array(
         'User',
@@ -16,6 +21,18 @@ class Show extends AppModel {
 
     // The output format of dates for shows
     var $date_format = 'F j, Y';
+    
+    /**
+     *
+     */
+    function unfollow($show_id, $user_id) {
+        // Sanitize the values to be safe
+        $show_id = Sanitize::clean($show_id);
+        $user_id = Sanitize::clean($user_id);
+
+        // Delete the association
+        $this->habtmDelete('User', $show_id, $user_id);
+    }
 
     /**
      * Returns the shows that are being tracked by the user specified by user_id
@@ -27,10 +44,12 @@ class Show extends AppModel {
         // Setup parameters
         $params = array(
             'contain' => FALSE,
+            'conditions' => array(
+                'shows_users.user_id =' => $user_id,
+            ),
             'link' => array(
                 'shows_users' => array(
                     'conditions' => array(
-                        'shows_users.user_id =' => $user_id,
                         'shows_users.show_id = Show.id',
                     ),
                 ),

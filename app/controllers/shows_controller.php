@@ -19,6 +19,27 @@ class ShowsController extends AppController {
             $this->redirect(array('controller' => 'users', 'action' => 'login'));
         }
     }
+
+
+    /**
+     * Unfollows the logged in user from the show specified by the id
+     */
+    function unfollow($show_id) {
+        // Sanitize to be safe
+        $show_id = Sanitize::clean($show_id);
+
+        // Get the logged in user id
+        //$user_id = $this->Auth->user('id');
+        $user_id = 1;
+
+        // Check if user is logged in
+        if ($user_id) {
+            // Unfollow
+            $this->Show->unfollow($show_id, $user_id);
+        } else {
+            $this->cakeError('error404');
+        }
+    }
     
     /**
      * Returns the date of the next episode of a show
