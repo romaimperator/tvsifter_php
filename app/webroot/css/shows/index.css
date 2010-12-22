@@ -1,3 +1,4 @@
+/* Setup the values for the show block */
 #shows {
     width: 512px;
     margin-left: auto;
@@ -6,15 +7,35 @@
     padding-bottom: 25px;
 }
 
-tr.show td {
+/* Make sure no padding is on the red x column so that it appears nicely */
+.unfollow {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+/* Provide some padding to the cells to separate the values some */
+.normal_td {
     padding-top: 5px;
     padding-bottom: 5px;
 }
 
+/* Set the table to be as wide as the body */
 #shows table {
     width: 100%;
 }
 
+/* Add some white space to separate the follow/unfollow from the table */
 #add_show_link {
     margin-top: 25px;
+}
+
+/* Limit the size of the red x so as not to screw up the table */
+.unfollow img {
+    max-width: 15px;
+    max-height: 15px;
+}
+
+/* Make the cursor a pointer while over the red x */
+.unfollow img:hover {
+    cursor: pointer;
 }

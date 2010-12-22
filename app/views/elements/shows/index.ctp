@@ -4,6 +4,7 @@
     $date_format = 'F j, Y';
 
     $html->css('shows/index', null, array('inline' => FALSE));
+    $html->script('shows/index.js', FALSE);
 ?>
 
 <div id="shows">
@@ -16,6 +17,7 @@
         <table>
         <tbody>
             <tr>
+                <th class="unfollow"></th>
                 <th></th>
                 <th>Last Airing:</th>
                 <th>Next Airing:</th>
@@ -29,9 +31,10 @@
             ?>
 
             <tr class="show">
-                <td><?php echo $html->link($show['Show']['display_name'], array('controller' => 'shows', 'action' => 'view', $show['Show']['name'])); ?></td>
-                <td class="center"><?php echo $last_airing; ?></td>
-                <td class="center"><?php echo $next_airing; ?></td>
+                <td class="unfollow"><?php echo $html->image('red_x.png'); ?></td>
+                <td class="normal_td"><?php echo $html->link($show['Show']['display_name'], array('controller' => 'shows', 'action' => 'view', $show['Show']['name'])); ?></td>
+                <td class="normal_td center"><?php echo $last_airing; ?></td>
+                <td class="normal_td center"><?php echo $next_airing; ?></td>
             </tr>
 
         <?php endforeach; ?>
@@ -42,7 +45,7 @@
         <p id="add_show_link">
             <?php echo $html->link('Follow a new show', array('admin' => FALSE, 'controller' => 'shows', 'action' => 'follow_show')); ?>
             or
-            <?php echo $html->link('Unfollow a show', array('admin' => FALSE, 'controller' => 'shows', 'action' => 'unfollow_show')); ?>
+            <?php echo $html->link('Unfollow a show', 'javascript:unfollow_show()'); ?>
         </p>
 
     <?php else: ?>
