@@ -54,3 +54,30 @@
 #fourth_col {
     width: 140px;
 }
+
+#search_div input {
+    width: 250px;
+}
+#search_div ul {
+    width: 250px;
+}
+
+.autocomplete_item {
+    height: 20px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+
+.autocomplete_image {
+    float: left;
+    width: 20px;
+    height: 20px;
+    max-width: 20px;
+    max-height: 20px;
+}
+.autocomplete_item:hover div {
+    background-image: url('/img/add_item.png');
+}
+.added_show:hover div {
+    background-image: url('/img/green_check.png');
+}

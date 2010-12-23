@@ -21,9 +21,59 @@ class Show extends AppModel {
 
     // The output format of dates for shows
     var $date_format = 'F j, Y';
+
+    /**
+     * Returns the names of all available shows
+     */
+    function get_all_show_names() {
+        // Setup query parameters
+        $params = array(
+            'contain' => FALSE,
+            'fields' => array(
+                'Show.display_name',
+            ),
+            'order' => array(
+                'Show.display_name ASC',
+            ),
+        );
+
+        // Perform query
+        $names = $this->cache('all', $params);
+        
+        // Return clean data
+        return Sanitize::clean($names);
+    }
+
+
+    /**
+     * Returns the names of shows that are similar to the provided value
+     */
+    function get_similar_show_names($search) {
+        // Sanitize to be safe
+        $search = Sanitize::clean($search);
+
+        // Setup parameters
+        $params = array(
+            'contain' => FALSE,
+            'conditions' => array(
+                'Show.display_name LIKE' => $search.'%',
+            ),
+            'order' => array(
+                'Show.display_name ASC',
+            ),
+        );
+
+        // Perform query
+        $names = $this->cache('all', $params);
+        
+        // Return the cleaned data
+        return Sanitize::clean($names);
+    }
+
     
     /**
-     *
+     * Removes association between the user and the show. Used when the user
+     * unfollows a show.
      */
     function unfollow($show_id, $user_id) {
         // Sanitize the values to be safe

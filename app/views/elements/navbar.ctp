@@ -1,5 +1,3 @@
-<?php echo $html->css('navbar', null, array('inline' => FALSE)); ?>
-
 <?php $logged_in = TRUE; ?>
 
 <div class="navbar">
@@ -32,7 +30,7 @@
                 'admin' => FALSE,
                 'controller' => 'shows',
             );
-            echo $html->link('Your Shows', $url);
+            echo $html->link('My Shows', $url);
         ?>
         </li>
 

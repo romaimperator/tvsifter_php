@@ -1,6 +1,51 @@
 <?php
 
 class ShowsController extends AppController {
+    var $components = array(
+        'RequestHandler',
+    );
+
+    var $helpers = array(
+        'Ajax',
+        'Js',
+    );
+    
+    /**
+     * Returns all of the shows available
+     */
+    function all() {
+        if ($this->params['isAjax']) {
+            // This is sent via ajax so setup JSON output
+            $this->layout = 'ajax';
+            
+            // Grab the data
+            $show_names = $this->Show->get_all_show_names();
+
+            // Set the return value
+            $this->set('show_names', $show_names);
+        }
+    }
+
+
+    /**
+     * Search by show name
+     */
+    function search() {
+        // Sanitize to be safe
+        $this->data = Sanitize::clean($this->data);
+
+        if ($this->params['isAjax']) {
+            // Set ajax output
+            $this->layout = 'ajax';
+
+            // Grab the similar matches
+            $show_names = $this->Show->get_similar_show_names($this->data['Show']['display_name']);
+
+            // Return values
+            $this->set('show_names', $show_names);
+        }
+    }
+
 
     /**
      * Shows the list of shows tracked by the currently logged in user

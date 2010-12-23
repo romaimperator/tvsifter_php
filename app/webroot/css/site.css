@@ -43,6 +43,8 @@ head {
 .header4 h4 {
     margin-left: 10px;
     line-height: 40px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 h1 {

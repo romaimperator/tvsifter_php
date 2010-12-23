@@ -2,14 +2,11 @@
     //$shows = $this->requestAction(array('controller' => 'shows', 'action' => 'index'));
 
     $date_format = 'F j, Y';
-
-    $html->css('shows/index', null, array('inline' => FALSE));
-    $html->script('shows/index.js', FALSE);
 ?>
 
 <div id="shows">
     <div class="header4">
-        <h4>Your Shows:</h4>
+        <h4>My Shows:</h4>
     </div>
 
     <?php if (isset($shows) && ! empty($shows)): ?>
@@ -39,11 +36,14 @@
 
         <?php endforeach; ?>
 
+         <?php //echo $ajax->autoComplete('Show.display_name', array('controller' => 'shows', 'action' => 'search')) ?>
         </tbody>
         </table>
 
+        <div id="search_div"><input class="follow" type="text" value="Enter search here..." id="follow_search" /></div>
+
         <p id="add_show_link">
-            <?php echo $html->link('Follow a new show', array('admin' => FALSE, 'controller' => 'shows', 'action' => 'follow_show')); ?>
+            <?php echo $html->link('Follow a new show', 'javascript:toggle_follow_show()'); //array('admin' => FALSE, 'controller' => 'shows', 'action' => 'follow_show')); ?>
             or
             <?php echo $html->link('Unfollow a show', 'javascript:unfollow_show()'); ?>
         </p>
