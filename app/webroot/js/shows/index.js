@@ -34,44 +34,48 @@ $(document).ready( function() {
             $(this).val(SEARCH_BOX_TEXT);
         }
     });
-
-    //var data = new Array('House', 'How I Met Your Mother');
 });
 
 /**
  * Searches the data for matches. Loads data on first request.
  */
 function search(query) {
+    // If a query for show names has not been done, perform the JSON request
     if ( typeof search.data == 'undefined') {
         $.ajax({
             type: 'GET',
             url: '/shows/all',
             dataType: 'json',
             success: function(result) { 
+                // Cache the result
                 search.data = result;
             },
             data: {},
             async: false
         });
-        /*$.getJSON('/shows/all', function(result) {
-            search.data = result;
-            alert("'"+search.data+"'");
-        });*/
     }
 
     var matches = Array();
+
+    // Create the regex to match the search query being sure to escape any
+    // possible regex characters
     var queryRegex = new RegExp("^"+escape_regex(query)+"\\w*", 'i');
 
+    // Check for any matches and make the list
     $.each(search.data, function(r, show) {
         if (show.Show.display_name.match(queryRegex)) {
             matches.push(show.Show.display_name);
         }
     });
 
+    // Create the list element to display the matches in
     create_floating_list('show_name_matches', matches);
 }
 
 
+/**
+ * Returns a string with the regex characters escaped
+ */
 function escape_regex(str)
 {
     var specials = new RegExp("[.*+?|()\\[\\]{}\\\\]", "g"); // .*+?|()[]{}\
@@ -82,29 +86,40 @@ function escape_regex(str)
  * Creates a floating list
  */
 function create_floating_list(list_name, values) {
+    // Remove the existing list
     $('#'+list_name).remove();
 
-    //var iframe = document.createElement('iframe');
+    // Create the new element
     var list = document.createElement('ul');
+
+    // Create a list item for each match
     $.each(values, function(r, value) {
         var item = document.createElement('li');
         var image_div = document.createElement('div');
 
+        // Set the class for the add button image
         image_div.setAttribute('class', 'autocomplete_image');
 
+        // Set the class for the list item
         item.setAttribute('class', 'autocomplete_item');
 
+        // Add the image div to the list item
         item.appendChild(image_div);
+
+        // Add the matching show name to the list item
         item.appendChild(document.createTextNode(value));
 
+        // Add the list item to the list
         list.appendChild(item);
     });
 
-    var style = 'position:absolute; background-color: #fff; border: 1px solid;';
-
-    list.setAttribute('style', style);
+    // Set the id of the list
     list.setAttribute('id', list_name);
+
+    // Add the list to the div containing the input box
     $('#search_div').append(list);
+
+    // Position the list just below the input box
     $('#'+list_name).position({
         my: 'left top',
         at: 'bottom left',
