@@ -9,6 +9,25 @@ class ShowsController extends AppController {
         'Ajax',
         'Js',
     );
+
+    /**
+     * Marks the show as followed by the currently logged in user
+     */
+    function follow($show_id) {
+        // Sanitize to be safe
+        $show_id = Sanitize::clean($show_id);
+
+        //$user_id = $this->Auth->user('id');
+        $user_id = 1;
+
+        if ($user_id) {
+            // Mark the show as followed
+            $this->Show->follow($show_id, $user_id);
+        } else {
+            $this->cakeError('error404');
+        }
+   }
+            
     
     /**
      * Returns all of the shows available
@@ -24,6 +43,29 @@ class ShowsController extends AppController {
             // Set the return value
             $this->set('show_names', $show_names);
         }
+    }
+
+
+    /**
+     * Returns all untracked shows by the logged in user
+     */
+    function all_untracked() {
+        //if ($this->params['isAjax']) {
+            // Returning JSON output
+            $this->layout = 'ajax';
+
+            // Get the user id
+            //$user_id = $this->Auth->user('id');
+            $user_id = 1;
+
+            if ($user_id) {
+                // Grab the data
+                $show_names = $this->Show->get_all_show_names($user_id);
+
+                // Set the return
+                $this->set('show_names', $show_names);
+            }
+        //}
     }
 
 

@@ -23,6 +23,10 @@ $(document).ready( function() {
 
     // Bind on enter to clear the text box
     $('#follow_search').bind('focusin', function(e) {
+        // Show the list
+        $('#show_name_matches').show();
+
+        // Clear the box on entry
         if ($(this).val() == SEARCH_BOX_TEXT) {
             $(this).val('');
         }
@@ -30,6 +34,10 @@ $(document).ready( function() {
 
     // Bind on exit to replace the text
     $('#follow_search').bind('focusout', function(e) {
+        // Hide the list
+        $('#show_name_matches').hide();
+
+        // Replace the text in the box on exit
         if ($(this).val() == '') {
             $(this).val(SEARCH_BOX_TEXT);
         }
@@ -41,35 +49,41 @@ $(document).ready( function() {
  */
 function search(query) {
     // If a query for show names has not been done, perform the JSON request
-    if ( typeof search.data == 'undefined') {
+    var data = Array();
+    //if ( typeof search.data == 'undefined') {
         $.ajax({
             type: 'GET',
-            url: '/shows/all',
+            url: '/shows/all_untracked',
             dataType: 'json',
             success: function(result) { 
                 // Cache the result
-                search.data = result;
+                data = result;
             },
             data: {},
             async: false
         });
-    }
 
-    var matches = Array();
+    // Ensure that data was returned before trying to use it
+    if (data.length > 0) {
+        var matches = Array();
 
-    // Create the regex to match the search query being sure to escape any
-    // possible regex characters
-    var queryRegex = new RegExp("^"+escape_regex(query)+"\\w*", 'i');
+        // Create the regex to match the search query being sure to escape any
+        // possible regex characters
+        var queryRegex = new RegExp("^"+escape_regex(query)+"\\w*", 'i');
 
-    // Check for any matches and make the list
-    $.each(search.data, function(r, show) {
-        if (show.Show.display_name.match(queryRegex)) {
-            matches.push(show.Show.display_name);
+        // Check for any matches and make the list
+        $.each(data, function(r, show) {
+            if (show.Show.display_name.match(queryRegex)) {
+                matches.push(show.Show);
+            }
+        });
+
+        // Ensure that there were matches before making a list
+        if (matches.length > 0) {
+            // Create the list element to display the matches in
+            create_floating_list('show_name_matches', matches);
         }
-    });
-
-    // Create the list element to display the matches in
-    create_floating_list('show_name_matches', matches);
+    }
 }
 
 
@@ -103,11 +117,14 @@ function create_floating_list(list_name, values) {
         // Set the class for the list item
         item.setAttribute('class', 'autocomplete_item');
 
+        // Set the id to the show id
+        item.setAttribute('id', 'follow'+value.id);
+
         // Add the image div to the list item
         item.appendChild(image_div);
 
         // Add the matching show name to the list item
-        item.appendChild(document.createTextNode(value));
+        item.appendChild(document.createTextNode(value.display_name));
 
         // Add the list item to the list
         list.appendChild(item);
@@ -125,7 +142,44 @@ function create_floating_list(list_name, values) {
         at: 'bottom left',
         of: $('.follow'),
     });
+
+    // Bind the follow_show to the new button
+    bind_follow_show_buttons();
 }
+
+
+/**
+ * Binds the follow_show button images to the function
+ */
+function bind_follow_show_buttons() {
+    $('.autocomplete_item').bind('click', function(e) {
+        // Ensure that only the list item and divs are matched
+        var t = e.currentTarget;
+        if (t.nodeName == 'LI') {
+            var id = t.id.match(/^follow(\d+)/)[1];
+            follow(id);
+        } else if (t.nodeName == 'DIV') {
+            alert('howdy');
+            var id = t.id.match(/^follow(\d+)/)[1];
+            follow(id);
+        }
+    });
+}
+
+
+/**
+ * Marks the show as followed with ajax and changes the add button image to the
+ * green check image
+ */
+function follow(id) {
+    $.get('/shows/follow/'+id, function(result) {
+        // mark the item as added
+        $('#follow'+id).addClass('added_show');
+
+        // remove the item from the show cache
+    });
+}
+
 
 /**
  * Toggles showing the remove button.

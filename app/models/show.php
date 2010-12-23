@@ -23,25 +23,89 @@ class Show extends AppModel {
     var $date_format = 'F j, Y';
 
     /**
-     * Returns the names of all available shows
+     * Marks the show as followed for the given user
      */
-    function get_all_show_names() {
+    function follow($show_id, $user_id) {
+        // Sanitize to be safe
+        $show_id = Sanitize::clean($show_id);
+        $user_id = Sanitize::clean($user_id);
+
+        // Mark as followed
+        $this->habtmAdd('User', $show_id, $user_id);
+    }
+
+    /**
+     * Returns the names of all available shows or the names of shows NOT
+     * tracked by the given user_id
+     */
+    function get_all_show_names($user_id=FALSE) {
         // Setup query parameters
         $params = array(
             'contain' => FALSE,
             'fields' => array(
                 'Show.display_name',
+                'Show.id',
             ),
             'order' => array(
                 'Show.display_name ASC',
             ),
         );
 
+        if ($user_id) {
+            // Sanitize for safty
+            $user_id = Sanitize::clean($user_id);
+
+            // Add condition and link to shows_users
+            $tracked_show_ids = $this->get_tracked_show_ids($user_id);
+
+            // Make into an array if not already for query condition
+            if ( ! is_array($tracked_show_ids)) {
+                $tracked_show_ids = array($tracked_show_ids);
+            }
+
+            $params['conditions'] = array(
+                'NOT' => array('Show.id ' => $tracked_show_ids),
+            );
+        }
+
         // Perform query
         $names = $this->cache('all', $params);
         
         // Return clean data
         return Sanitize::clean($names);
+    }
+
+
+    /**
+     * Returns the ids of shows tracked by the given user_id
+     */
+    function get_tracked_show_ids($user_id) {
+        // Sanitize to be safe
+        $user_id = Sanitize::clean($user_id);
+
+        // Setup query parameters
+        $params = array(
+            'contain' => FALSE,
+            'conditions' => array(
+                'shows_users.user_id =' => $user_id,
+            ),
+            'fields' => array(
+                'Show.id',
+            ),
+            'link' => array(
+                'shows_users' => array(
+                    'conditions' => array(
+                        'shows_users.show_id = Show.id',
+                    ),
+                ),
+            ),
+        );
+
+        // Perform query
+        $show_ids = $this->cache('list', $params);
+
+        // Return the cleaned data
+        return Sanitize::clean($show_ids);
     }
 
 

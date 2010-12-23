@@ -75,11 +75,11 @@
     max-width: 20px;
     max-height: 20px;
 }
-.autocomplete_item:hover div {
+li[class=autocomplete_item]:hover div {
     background-image: url('/img/add_item.png');
 }
-.added_show:hover div {
-    background-image: url('/img/green_check.png');
+.added_show div {
+    background-image: url('/img/green_check_small.png');
 }
 
 #show_name_matches {
