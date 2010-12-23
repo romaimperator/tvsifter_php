@@ -36,21 +36,24 @@
 
         <?php endforeach; ?>
 
-         <?php //echo $ajax->autoComplete('Show.display_name', array('controller' => 'shows', 'action' => 'search')) ?>
         </tbody>
         </table>
 
-        <div id="search_div"><input class="follow" type="text" value="Enter search here..." id="follow_search" /></div>
-
-        <p id="add_show_link">
-            <?php echo $html->link('Follow a new show', 'javascript:toggle_follow_show()'); //array('admin' => FALSE, 'controller' => 'shows', 'action' => 'follow_show')); ?>
-            or
-            <?php echo $html->link('Unfollow a show', 'javascript:unfollow_show()'); ?>
-        </p>
-
     <?php else: ?>
 
-        <p>You are not currently tracking any shows. Add a show <?php echo $html->link('here', array('controller' => 'users', 'action' => 'add_show')); ?>. </p>
+        <p>You are not currently tracking any shows.</p>
 
     <?php endif; ?>
+
+    <div id="search_div"><input class="follow" type="text" value="Enter search here..." id="follow_search" /></div>
+
+    <p id="add_show_link">
+        <?php echo $html->link('Follow a new show', 'javascript:toggle_follow_show()'); ?>
+
+        <?php if ( ! empty($shows)): ?>
+
+            or <?php echo $html->link('Unfollow a show', 'javascript:unfollow_show()'); ?>
+
+        <?php endif; ?>
+    </p>
 </div>

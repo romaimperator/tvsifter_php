@@ -24,7 +24,7 @@ $(document).ready( function() {
     // Bind on enter to clear the text box
     $('#follow_search').bind('focusin', function(e) {
         // Show the list
-        $('#show_name_matches').show();
+        //$('#show_name_matches').show();
 
         // Clear the box on entry
         if ($(this).val() == SEARCH_BOX_TEXT) {
@@ -35,7 +35,7 @@ $(document).ready( function() {
     // Bind on exit to replace the text
     $('#follow_search').bind('focusout', function(e) {
         // Hide the list
-        $('#show_name_matches').hide();
+        //$('#show_name_matches').hide();
 
         // Replace the text in the box on exit
         if ($(this).val() == '') {
