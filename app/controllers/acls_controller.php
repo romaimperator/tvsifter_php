@@ -124,6 +124,8 @@ class AclsController extends AppController {
         $acl->allow($group, 'Shows/unfollow');
         $acl->allow($group, 'Shows/get_next_airing');
         $acl->allow($group, 'Shows/get_last_airing');
+
+        $this->set('success', 'Success!');
     }
 
 
