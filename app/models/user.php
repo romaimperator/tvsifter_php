@@ -21,6 +21,41 @@ class User extends AppModel {
 
 
     /**
+     * Returns the average number of follows per user
+     */
+    function get_average_follow_count() {
+        // Setup parameters
+        $params = array(
+            'contain' => FALSE,
+            'fields' => array(
+                'User.show_count',
+            ),
+        );
+
+        // Perform query
+        $counts = $this->find('list', $params);
+
+        // Count the average
+        $average_count = array_sum($counts) / count($counts);
+
+        // Return the average
+        return Sanitize::clean($average_count);
+    }
+
+
+    /**
+     * Returns the number of users
+     */
+    function get_count() {
+        // Perform count
+        $user_count = $this->cache('count');
+        
+        // Return cleaned count
+        return Sanitize::clean($user_count);
+    }
+
+
+    /**
      * Returns the user info
      */
     function get_user_info($user_id) {

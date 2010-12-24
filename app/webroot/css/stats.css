@@ -1,0 +1,22 @@
+#stats {
+    width: 200px;
+    margin-top: 200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#stats h5 {
+    font-size: 11px;
+    color: #888;
+}
+
+#stats th,td {
+    text-align: left;
+    font-size: 10px;
+    font-weight: normal;
+    color: #aaa;
+}
+
+#stats td {
+    padding-left: 5px;
+}

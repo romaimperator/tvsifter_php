@@ -1,5 +1,5 @@
 <?php $logged_in = $session->check('Auth.User.id'); ?>
-<?php if (empty($selected)) { $selected = 0; } ?>
+<?php if (empty($selected)) { $selected = 'none'; } ?>
 
 <div class="navbar">
 <ul>

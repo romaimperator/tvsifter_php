@@ -11,7 +11,7 @@ class Show extends AppModel {
 
     // Set the association to the User model
     var $hasAndBelongsToMany = array(
-        'User',
+        'User' => array('counterCache' => TRUE),
     );
 
     // Set up the association with the Episode model
@@ -21,6 +21,19 @@ class Show extends AppModel {
 
     // The output format of dates for shows
     var $date_format = 'F j, Y';
+
+
+    /**
+     * Returns the number of shows
+     */
+    function get_count() {
+        // Perform count
+        $show_count = $this->cache('count');
+
+        // Return cleaned count
+        return Sanitize::clean($show_count);
+    }
+
 
     /**
      * Marks the show as followed for the given user

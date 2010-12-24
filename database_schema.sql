@@ -47,6 +47,7 @@ CREATE TABLE users (
     password varchar(40) NOT NULL,
     email varchar(64) NOT NULL,
     group_id integer NOT NULL,
+    show_count integer,
     created datetime,
     modified datetime
 ) ENGINE = MyISAM DEFAULT CHARACTER SET = utf8 COLLATE = utf8_unicode_ci;
