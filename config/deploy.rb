@@ -31,7 +31,7 @@ server "tvsifter.com", :app, :web, :db, :primary => true
 
 #before "deploy:update", 'deploy:web:disable'
 #after 'deploy:restart', 'deploy:web:enable'
-#after 'deploy:update', 'deploy:cleanup'
+after 'deploy:update', 'deploy:cleanup'
 
 namespace :deploy do
     
