@@ -104,6 +104,9 @@ class AclsController extends AppController {
         $group->id = 3;
         $acl->deny($group, 'controllers');
 
+        $acl->allow($group, 'pages/display');
+        $acl->allow($group, 'Stats/index');
+
         $acl->allow($group, 'Users/login');
         $acl->allow($group, 'Users/logout');
         $acl->allow($group, 'Users/register');
@@ -188,5 +191,6 @@ class AclsController extends AppController {
             }
         }
         debug($log);
+        $this->set('log', $log);
     }
 }
