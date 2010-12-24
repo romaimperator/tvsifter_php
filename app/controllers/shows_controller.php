@@ -20,6 +20,9 @@ class ShowsController extends AppController {
         $user_id = $this->Auth->user('id');
 
         if ($user_id) {
+            // Set layout to ajax because fix 404 response
+            $this->layout = 'ajax';
+
             // Mark the show as followed
             $this->Show->follow($show_id, $user_id);
         } else {
@@ -117,6 +120,9 @@ class ShowsController extends AppController {
 
         // Check if user is logged in
         if ($user_id) {
+            // Set layout to ajax because fix 404 response
+            $this->layout = 'ajax';
+
             // Unfollow
             $this->Show->unfollow($show_id, $user_id);
         } else {
