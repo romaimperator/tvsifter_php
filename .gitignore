@@ -6,3 +6,6 @@
 /app/config/config.php
 
 /app/tmp/
+
+/app/webroot/ccss/
+/app/webroot/cjs/
