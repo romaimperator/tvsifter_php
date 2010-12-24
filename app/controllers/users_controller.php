@@ -19,6 +19,7 @@ class UsersController extends AppController {
                 $this->Session->setFlash('Login failed. Check that both the username and password are correct.');
             }
         }
+        $this->set('selected', 'login');
     }
 
 
@@ -41,16 +42,25 @@ class UsersController extends AppController {
 
             // Set the user's group
             $data['User']['group_id'] = '3';
-            
+
             // Attempt to save the data. If validation passes the login the new
             // user and redirect them. Otherwise skip straight back to the
             // validation page.
             if ($this->User->saveAll($data)) {
+                // Create the aro for the user
+                $this->Acl->Aro->create();
+                $aro_data = array(
+                    'model' => 'User',
+                    'foreign_key' => $this->User->getLastInsertId(),
+                    'parent_id' => 3,
+                );
+                $this->Acl->Aro->save($aro_data);
+            
                 $this->Auth->login($data);
                 $this->redirect($this->Auth->loginRedirect);
             }
         }
-        $this->set('selected', 3);
+        $this->set('selected', 'register');
     } 
 
 
@@ -68,7 +78,7 @@ class UsersController extends AppController {
     function get_friends() {
         if (isset($this->params['requested'])) {
             //$this->layout = 'ajax';
-            $id = 1;
+            $id = $this->Auth->user('id');
 
             if ($id) {
                 return $this->User->get_friend_info($id);
@@ -85,7 +95,7 @@ class UsersController extends AppController {
      */
     function get_friend_activity() {
         if (isset($this->params['requested'])) {
-            $id = 1;
+            $id = $this->Auth->user('id');
             
             if ($id) {
                 return $this->User->get_friend_activity($id);
@@ -101,8 +111,7 @@ class UsersController extends AppController {
      */
     function get_shows() {
         if (isset($this->params['requested'])) {
-            //$id = $this->Auth->user('id');
-            $id = 1;
+            $id = $this->Auth->user('id');
 
             if ($id) {
                 return $this->User->get_shows($id);
@@ -122,8 +131,7 @@ class UsersController extends AppController {
             // Sanitize just to be safe
             $date = Sanitize::clean($date);
 
-            // $id = $this->Auth->user('id');
-            $id = 1;
+            $id = $this->Auth->user('id');
 
             if ($id) {
                 // Run query
@@ -139,13 +147,12 @@ class UsersController extends AppController {
      * Generates the user's account page
      */
     function home() {
-        //$id = $this->Auth->user('id');
-        $id = 1;
+        $id = $this->Auth->user('id');
 
         if ($id) {
             $user = $this->User->get_user_info($id);
 
-            $this->set('selected', 1); // 1 being assigned to the Home link in navbar.ctp
+            $this->set('selected', 'home'); // 1 being assigned to the Home link in navbar.ctp
             $this->set('username', $user['User']['username']);
             $this->set('user_id', $id);
         } else {

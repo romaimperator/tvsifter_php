@@ -21,7 +21,8 @@ class AppController extends Controller {
 
         $a =& $this->Auth;
 
-        $a->allow('*');
+        //$a->allow('*');
+        $a->allow('register', 'login');
 
         $a->authorize = 'actions';
         $this->Auth->actionPath = 'controllers/';

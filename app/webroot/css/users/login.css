@@ -1,4 +1,4 @@
-#register_form {
+#login_form {
     width: 512px;
     padding-top: 25px;
     padding-bottom: 25px;
@@ -23,13 +23,13 @@
 
 input[type=password], input[type=text] {
     padding: 5px;
-    width: 100%;
     font-size: 14px;
+    width: 100%;
 }
 
 label {
-    font-size: 16px;
     width: 100%;
+    font-size: 16px;
     float: left;
 }
 

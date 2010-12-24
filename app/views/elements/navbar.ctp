@@ -1,11 +1,11 @@
-<?php $logged_in = FALSE; ?>
+<?php $logged_in = $session->check('Auth.User.id'); ?>
 <?php if (empty($selected)) { $selected = 0; } ?>
 
 <div class="navbar">
 <ul>
     <?php if ($logged_in): ?>
 
-        <li class="nav_item <?php echo $selected == 1 ? 'nav_selected' : ''; ?>">
+        <li class="nav_item <?php echo $selected == 'home' ? 'nav_selected' : ''; ?>">
         <?php
             $url = array(
                 'action' => 'home',
@@ -20,11 +20,7 @@
 
     <?php if ($logged_in): ?>
 
-    <?php endif; ?>
-
-    <?php if ( ! $logged_in): ?>
-
-        <li class="nav_item <?php echo $selected == 2 ? 'nav_selected' : ''; ?>">
+        <li class="nav_item <?php echo $selected == 'my shows' ? 'nav_selected' : ''; ?>">
         <?php
             $url = array(
                 'action' => 'index',
@@ -39,7 +35,7 @@
 
     <?php if ( ! $logged_in): ?>
 
-        <li class="nav_item">
+        <li class="nav_item <?php echo $selected == 'login' ? 'nav_selected' : ''; ?>">
         <?php
             $url = array(
                 'action' => 'login',
@@ -69,7 +65,7 @@
 
     <?php if ( ! $logged_in): ?>
 
-        <li class="nav_item <?php echo $selected == 3 ? 'nav_selected' : ''; ?>">
+        <li class="nav_item <?php echo $selected == 'register' ? 'nav_selected' : ''; ?>">
         <?php
             $url = array(
                 'action' => 'register',

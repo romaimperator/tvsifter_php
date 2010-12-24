@@ -36,6 +36,7 @@
         Router::connect('/home', array('controller' => 'users', 'action' => 'home'));
         Router::connect('/login', array('controller' => 'users', 'action' => 'login'));
         Router::connect('/logout', array('controller' => 'users', 'action' => 'logout'));
+        Router::connect('/register', array('controller' => 'users', 'action' => 'register'));
 
         // The following are the routes for the shows controller
         Router::connect('/shows', array('controller' => 'shows', 'action' => 'index'));

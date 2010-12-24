@@ -1,8 +1,6 @@
 <?php
     $episodes = $this->requestAction(array('controller' => 'users', 'action' => 'get_upcoming_episodes'), array('pass' => array('+6 week')));
 
-    $episodes[1] = $episodes[0];
-    
     $date_format = 'F j, Y';
 
     $html->css('users/upcoming', null, array('inline' => FALSE));

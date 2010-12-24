@@ -17,8 +17,7 @@ class ShowsController extends AppController {
         // Sanitize to be safe
         $show_id = Sanitize::clean($show_id);
 
-        //$user_id = $this->Auth->user('id');
-        $user_id = 1;
+        $user_id = $this->Auth->user('id');
 
         if ($user_id) {
             // Mark the show as followed
@@ -50,13 +49,12 @@ class ShowsController extends AppController {
      * Returns all untracked shows by the logged in user
      */
     function all_untracked() {
-        //if ($this->params['isAjax']) {
+        if ($this->params['isAjax']) {
             // Returning JSON output
             $this->layout = 'ajax';
 
             // Get the user id
-            //$user_id = $this->Auth->user('id');
-            $user_id = 1;
+            $user_id = $this->Auth->user('id');
 
             if ($user_id) {
                 // Grab the data
@@ -65,7 +63,7 @@ class ShowsController extends AppController {
                 // Set the return
                 $this->set('show_names', $show_names);
             }
-        //}
+        }
     }
 
 
@@ -93,13 +91,12 @@ class ShowsController extends AppController {
      * Shows the list of shows tracked by the currently logged in user
      */
     function index() {
-        //$user_id = $this->Auth->user('id');
-        $user_id = 1;
+        $user_id = $this->Auth->user('id');
 
         if ($user_id) {
             $shows = $this->Show->get_tracked_shows($user_id);
 
-            $this->set('selected', 2); // 2 being the number assigned to the Your Shows link in navbar.ctp
+            $this->set('selected', 'my shows'); // 2 being the number assigned to the Your Shows link in navbar.ctp
             $this->set('user_id', $user_id);
             $this->set('shows', $shows);
         } else {
@@ -116,8 +113,7 @@ class ShowsController extends AppController {
         $show_id = Sanitize::clean($show_id);
 
         // Get the logged in user id
-        //$user_id = $this->Auth->user('id');
-        $user_id = 1;
+        $user_id = $this->Auth->user('id');
 
         // Check if user is logged in
         if ($user_id) {
