@@ -2,6 +2,67 @@
 
 class UsersController extends AppController {
     /**
+     * Logs the user in after validating password
+     */
+    function login() {
+        if ($this->data) {
+            // Sanitize the data
+            $data = Sanitize::clean($this->data);
+
+            // Validate the login
+            $data['User']['password'] = $this->Auth->password($data['User']['clear_password']);
+            if ($this->Auth->login($data)) {
+                // On success redirect to the proper page
+                $this->redirect($this->Auth->loginRedirect);
+            } else {
+                // On error show error message
+                $this->Session->setFlash('Login failed. Check that both the username and password are correct.');
+            }
+        }
+    }
+
+
+    /**
+     * Registers the new user
+     */
+    function register() {
+        // First ensure that there is data otherwise skips straight to the page
+        // rendering.
+        if ($this->data) {
+            // Clean out the loaded model User data just in case
+            $this->User->create();
+
+            // Sanitize the data the user submitted
+            $data = Sanitize::clean($this->data);
+
+            // Assign the hashed password from the form input field to the
+            // model's password field
+            $data['User']['password'] = $this->Auth->password($data['User']['clear_password']);
+
+            // Set the user's group
+            $data['User']['group_id'] = '3';
+            
+            // Attempt to save the data. If validation passes the login the new
+            // user and redirect them. Otherwise skip straight back to the
+            // validation page.
+            if ($this->User->saveAll($data)) {
+                $this->Auth->login($data);
+                $this->redirect($this->Auth->loginRedirect);
+            }
+        }
+        $this->set('selected', 3);
+    } 
+
+
+    /**
+     * Logout the user
+     */
+    function logout() {
+        $this->redirect($this->Auth->logout());
+    }
+
+
+    /**
      * Returns the list of friend ids of the currently logged in user
      */
     function get_friends() {

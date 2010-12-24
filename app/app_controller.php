@@ -11,7 +11,26 @@ class AppController extends Controller {
 
     var $components = array(
         'DebugKit.Toolbar' => array('panels' => array('Interactive.interactive')),
+        'Acl',
+        'Auth',
+        'Session',
     );
+
+    function beforeFilter() {
+        parent::beforeFilter();
+
+        $a =& $this->Auth;
+
+        $a->allow('*');
+
+        $a->authorize = 'actions';
+        $this->Auth->actionPath = 'controllers/';
+        $a->autoRedirect = FALSE;
+        $a->loginAction = array('controller' => 'users', 'action' => 'login');
+        $a->loginRedirect = array('controller' => 'users', 'action' => 'home');
+        $a->logoutRedirect = array('controller' => 'users', 'action' => 'login');
+
+    }
 
     function __construct() {
         parent::__construct();

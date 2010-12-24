@@ -1,4 +1,5 @@
-<?php $logged_in = TRUE; ?>
+<?php $logged_in = FALSE; ?>
+<?php if (empty($selected)) { $selected = 0; } ?>
 
 <div class="navbar">
 <ul>
@@ -21,7 +22,7 @@
 
     <?php endif; ?>
 
-    <?php if ($logged_in): ?>
+    <?php if ( ! $logged_in): ?>
 
         <li class="nav_item <?php echo $selected == 2 ? 'nav_selected' : ''; ?>">
         <?php
@@ -65,5 +66,21 @@
         </li>
 
     <?php endif; ?>
+
+    <?php if ( ! $logged_in): ?>
+
+        <li class="nav_item <?php echo $selected == 3 ? 'nav_selected' : ''; ?>">
+        <?php
+            $url = array(
+                'action' => 'register',
+                'admin' => FALSE,
+                'controller' => 'users',
+            );
+            echo $html->link('Register', $url);
+        ?>
+        </li>
+
+    <?php endif; ?>
+
 </ul>
 </div>
