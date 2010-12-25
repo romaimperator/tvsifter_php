@@ -25,61 +25,86 @@ class User extends AppModel {
         'username' => array(
             'empty' => array(
                 'rule' => 'notEmpty',
+                'last' => TRUE,
                 'message' => 'You did not enter a username.',
-            ),
-            'exists' => array(
-                'rule' => 'isUnique',
-                'message' => 'This username has already been selected.',
             ),
             'valid' => array(
                 'rule' => '_alphaNumericDashUnderscore',
-                'message' => 'This username is not valid. It must contain only numbers, letters, dashes, and underscores',
+                'last' => TRUE,
+                'message' => 'The username can only be numbers, letters, dashes, and underscores',
             ),
             'minlength' => array(
                 'rule' => array('minLength', 4),
+                'last' => TRUE,
                 'message' => 'Your username must be at least 4 characters.',
             ),
             'maxlength' => array(
                 'rule' => array('maxLength', 64),
+                'last' => TRUE,
                 'message' => 'Your username cannot be longer than 64 characters.',
+            ),
+            'exists' => array(
+                'rule' => 'isUnique',
+                'last' => TRUE,
+                'message' => 'This username has already been selected.',
             ),
         ),
         'clear_password' => array(
             'empty' => array(
                 'rule' => 'notEmpty',
+                'last' => TRUE,
                 'message' => 'Your password cannot be blank.',
-            ),
-            'minlength' => array(
-                'rule' => array('minLength', 8),
-                'message' => 'Your password must be a minimum of 8 characters.',
             ),
             'notsimple' => array(
                 'rule' => '_not_simple',
+                'last' => TRUE,
                 'message' => 'Your password is a common password. Please choose another.'
             ),
+            'minlength' => array(
+                'rule' => array('minLength', 8),
+                'last' => TRUE,
+                'message' => 'Your password must be a minimum of 8 characters.',
+            ),
         ),
-        'confirm_password' => array(
+        'password_confirm' => array(
             'empty' => array(
                 'rule' => 'notEmpty',
+                'last' => TRUE,
                 'message' => 'You must confirm your password.'
             ),
             'matches' => array(
                 'rule' => array('_field_match', 'clear_password'),
+                'last' => TRUE,
                 'message' => 'Your passwords do not match.'
             ),
         ),
         'email' => array(
             'empty' => array(
                 'rule' => 'notEmpty',
+                'last' => TRUE,
                 'message' => 'You must supply an email address.',
             ),
             'valid' => array(
                 'rule' => 'email',
+                'last' => TRUE,
                 'message' => 'The email entered is not a valid email address.',
             ),
             'maxLength' => array(
                 'rule' => array('maxLength', 64),
+                'last' => TRUE,
                 'message' => 'Sorry but your email address cannot be longer than 64 characters.',
+            ),
+        ),
+        'email_confirm' => array(
+            'empty' => array(
+                'rule' => 'notEmpty',
+                'last' => TRUE,
+                'message' => 'You must confirm your email address.',
+            ),
+            'matches' => array(
+                'rule' => array('_field_match', 'email'),
+                'last' => TRUE,
+                'message' => 'Your email does not match.',
             ),
         ),
     );
@@ -139,7 +164,7 @@ class User extends AppModel {
             'popcorn');
 
         // Check if they match
-        return in_array($field, $simple_pass);
+        return ( ! in_array($field, $simple_pass));
     }
 
 
@@ -150,6 +175,8 @@ class User extends AppModel {
         // Extract the value because $fields is a hash
         $field = array_values($fields);
         $field = $field[0];
+
+        $other = $this->data['User'][$other];
 
         // Check if they match
         return ($field === $other);
@@ -165,7 +192,7 @@ class User extends AppModel {
         $field = $field[0];
 
         // Check if it is valid
-        return preg_match('^[0-9a-zA-Z_-]+$', $field);
+        return preg_match('|^[0-9a-zA-Z_-]+$|', $field);
     }
 
 

@@ -53,6 +53,7 @@ CREATE TABLE users (
 ) ENGINE = MyISAM DEFAULT CHARACTER SET = utf8 COLLATE = utf8_unicode_ci;
 
 CREATE INDEX user_group_id ON users (group_id);
+CREATE UNIQUE INDEX user_username on users (username);
 
 CREATE TABLE episodes (
     id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,

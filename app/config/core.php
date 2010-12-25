@@ -300,4 +300,15 @@
  *	));
  *
  */
-	Cache::config('default', array('engine' => 'File'));
+	//Cache::config('default', array('engine' => 'File'));
+        /*Cache::config('default', array(
+            'engine' => 'Memcache',
+            'duration' => 3600,
+            'probability' => 100,
+            'prefix' => Inflector::slug(APP_DIR) . '_',
+            'servers' => array(
+                '127.0.0.1:11211',
+            ),
+            'compress' => FALSE,
+        ));*/
+        Cache::config('default', array('engine' => 'Memcache'));
