@@ -20,6 +20,155 @@ class User extends AppModel {
     );
 
 
+    // Setup validation rules
+    var $validate = array(
+        'username' => array(
+            'empty' => array(
+                'rule' => 'notEmpty',
+                'message' => 'You did not enter a username.',
+            ),
+            'exists' => array(
+                'rule' => 'isUnique',
+                'message' => 'This username has already been selected.',
+            ),
+            'valid' => array(
+                'rule' => '_alphaNumericDashUnderscore',
+                'message' => 'This username is not valid. It must contain only numbers, letters, dashes, and underscores',
+            ),
+            'minlength' => array(
+                'rule' => array('minLength', 4),
+                'message' => 'Your username must be at least 4 characters.',
+            ),
+            'maxlength' => array(
+                'rule' => array('maxLength', 64),
+                'message' => 'Your username cannot be longer than 64 characters.',
+            ),
+        ),
+        'clear_password' => array(
+            'empty' => array(
+                'rule' => 'notEmpty',
+                'message' => 'Your password cannot be blank.',
+            ),
+            'minlength' => array(
+                'rule' => array('minLength', 8),
+                'message' => 'Your password must be a minimum of 8 characters.',
+            ),
+            'notsimple' => array(
+                'rule' => '_not_simple',
+                'message' => 'Your password is a common password. Please choose another.'
+            ),
+        ),
+        'confirm_password' => array(
+            'empty' => array(
+                'rule' => 'notEmpty',
+                'message' => 'You must confirm your password.'
+            ),
+            'matches' => array(
+                'rule' => array('_field_match', 'clear_password'),
+                'message' => 'Your passwords do not match.'
+            ),
+        ),
+        'email' => array(
+            'empty' => array(
+                'rule' => 'notEmpty',
+                'message' => 'You must supply an email address.',
+            ),
+            'valid' => array(
+                'rule' => 'email',
+                'message' => 'The email entered is not a valid email address.',
+            ),
+            'maxLength' => array(
+                'rule' => array('maxLength', 64),
+                'message' => 'Sorry but your email address cannot be longer than 64 characters.',
+            ),
+        ),
+    );
+
+
+    /**
+     * Validates that the password is not simple and obvious
+     */
+    function _not_simple($fields) {
+        // Extract the value because $fields is a hash
+        $field = array_values($fields);
+        $field = $field[0];
+
+        // Setup array of simple passwords
+        $simple_pass = array('123456', 'password', '12345678', 'qwerty',
+            'abc123', '12345', 'monkey', '111111', 'consumer', 'letmein',
+            '1234', 'dragon', 'trustno1', 'baseball', 'gizmodo', 'whatever',
+            'superman', '1234567', 'sunshine', 'iloveyou', 'fuckyou',
+            'starwars', 'shadow', 'princess', 'cheese', '123123', 'computer',
+            'gawker', 'football', 'blahblah', 'nintendo', '000000', 'soccer',
+            '654321', 'asdfasdf', 'master', 'michael', 'passw0rd', 'hello',
+            'kotaku', 'pepper', 'jennifer', '666666', 'welcome', 'buster',
+            'Password', 'batman', '1q2w3e4r', 'maggie', 'michelle', 'pokemon',
+            'killer', 'andrew', 'internet', 'biteme', 'orange', 'jordan',
+            'ginger', '123', 'aaaaaa', 'tigger', 'charlie', 'chicken',
+            'nothing', 'fuckoff', 'deadspin', 'valleywa', 'qwerty12', 'george',
+            'swordfis', 'summer', 'asdf', 'matthew', 'asdfgh', 'mustang',
+            'yankees', 'hannah', 'asdfghjk', '1qaz2wsx', 'cookie', 'midnight',
+            '123qwe', 'scooter', 'purple', 'banana', 'matrix', 'jezebel',
+            'daniel', 'hunter', 'freedom', 'secret', 'redsox', 'spiderma',
+            'phoenix', 'joshua', 'jessica', 'asshole', 'asdf1234', 'william',
+            'qwertyui', 'jackson', 'foobar', 'nicole', '123321', 'peanut',
+            'samantha', 'mickey', 'booger', 'poop', 'hockey', 'thx1138',
+            '121212', 'ashley', 'silver', 'gizmodo1', 'chocolat', 'booboo',
+            'metallic', '1q2w3e', 'bailey', 'google', 'babygirl', 'thomas',
+            'simpsons', 'remember', 'gateway', 'oliver', 'monster', 'guitar',
+            'qazwsx', 'taylor', 'madison', 'anthony', 'justin', 'elizabet',
+            '1111', 'november', 'drowssap', 'bubbles', 'startrek', 'monkey12',
+            'diamond', 'coffee', 'butterfl', 'brooklyn', 'amanda', 'adidas',
+            'test', 'love', 'wordpass', 'sparky', 'morgan', 'merlin',
+            'maverick', 'elephant', 'Highlife', 'poopoo', 'nirvana', 'liverpoo',
+            'lauren', 'stupid', 'chelsea', 'compaq', 'boomer', 'yellow',
+            'sophie', 'q1w2e3r4', 'fucker', 'coolness', 'cocacola', 'blink182',
+            'zxcvbnm', 'snowball', 'snoopy', 'gundam', 'alexande', 'rachel',
+            'jasmine', 'danielle', 'basketba', '7777777', 'thunder', 'snickers',
+            'patrick', 'darkness', 'boston', 'abcd1234', 'pumpkin', 'creative',
+            '88888888', 'smokey', 'sample12', 'godzilla', 'december', 'corvette',
+            'brandon', 'bandit', '123abc', 'voodoo', 'turtle', 'spider',
+            'london', 'jonathan', 'hello123', 'hahaha', 'chicago', 'austin',
+            'tennis', 'scooby', 'naruto', 'mercedes', 'maxwell', 'fluffy',
+            'eagles', '11111111', 'penguin', 'muffin', 'bullshit', 'steelers',
+            'jasper', 'flower', 'ferrari', 'slipknot', 'pookie', 'murphy',
+            'joseph', 'calvin', 'apples', '159753', 'tucker', 'martin',
+            '11235813', 'whocares', 'pineappl', 'nicholas', 'jackass', 'goober',
+            'chester', '8675309', '222222', 'winston', 'somethin', 'please',
+            'dakota', '112233', 'rosebud', 'dallas', '696969', 'shithead',
+            'popcorn');
+
+        // Check if they match
+        return in_array($field, $simple_pass);
+    }
+
+
+    /**
+     * Validate that the two fields match
+     */
+    function _field_match($fields, $other) {
+        // Extract the value because $fields is a hash
+        $field = array_values($fields);
+        $field = $field[0];
+
+        // Check if they match
+        return ($field === $other);
+    }
+
+
+    /**
+     * Validates that the value contains only letters, numbers, dashes, and underscores
+     */
+    function _alphaNumericDashUnderscore($fields) {
+        // Extract the value because $fields is a hash
+        $field = array_values($fields);
+        $field = $field[0];
+
+        // Check if it is valid
+        return preg_match('^[0-9a-zA-Z_-]+$', $field);
+    }
+
+
     /**
      * Returns the average number of follows per user
      */
