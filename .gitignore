@@ -9,3 +9,5 @@
 
 /app/webroot/ccss/
 /app/webroot/cjs/
+
+/app/webroot/apc.php
