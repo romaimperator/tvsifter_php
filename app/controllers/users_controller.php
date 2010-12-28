@@ -1,6 +1,8 @@
 <?php
 
 class UsersController extends AppController {
+    var $cacheAction = '+1 hour';
+
     /**
      * Change the user's email and password and anything in the future
      */

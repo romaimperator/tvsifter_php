@@ -2,7 +2,7 @@
 
 class StatsController extends AppController {
     
-    var $cacheAction = TRUE;
+    var $cacheAction = '+1 hour';
 
     var $uses = array();
 

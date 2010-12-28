@@ -10,6 +10,8 @@ class ShowsController extends AppController {
         'Js',
     );
 
+    var $cacheAction = '+1 hour';
+
     /**
      * Marks the show as followed by the currently logged in user
      */

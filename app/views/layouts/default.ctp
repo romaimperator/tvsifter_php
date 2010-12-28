@@ -43,7 +43,7 @@
                         <div id="logo"><a href="/"><?php echo $html->image('tvsifter_logo.png'); ?></a></div>
 		</div>
 		<div id="content">
-                        <?php echo $this->element('navbar', array('cache' => FALSE)); ?>
+                        <?php echo $this->element('navbar', array('cache' => '+1 hour')); ?>
 
 			<?php echo $this->Session->flash(); ?>
 

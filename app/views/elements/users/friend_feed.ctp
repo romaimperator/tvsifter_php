@@ -1,8 +1,6 @@
 <?php
     // Retrieve the list of recent activity of friends
     $activity = $this->requestAction(array('controller' => 'users', 'action' => 'get_friend_activity'));
-
-    $html->css('users/friend_feed', null, array('inline' => FALSE));
 ?>
 
 <div id="friend_feed">

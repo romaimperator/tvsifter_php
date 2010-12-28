@@ -18,5 +18,5 @@
         <li>Receive an email update of which episodes are airing each week (opt-in)</li>
     </ul>
 
-    <?php echo $this->element('stats', array('cache' => '1 second')); ?>
+    <?php echo $elementcombiner->element('stats', array('cache' => '+1 hour')); ?>
 </div>

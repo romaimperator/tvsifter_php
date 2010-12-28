@@ -1,7 +1,5 @@
 <?php
     $stats = $this->requestAction(array('controller' => 'stats', 'action' => 'index'));
-
-    echo $html->css('stats', FALSE);
 ?>
 
 <div id="stats">
