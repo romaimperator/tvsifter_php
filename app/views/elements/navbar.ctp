@@ -3,6 +3,9 @@
 
 <div class="navbar">
 <ul>
+<?php //////////////////////////
+      // BEGIN LOGGED IN MENU //
+      ////////////////////////// ?>
     <?php if ($logged_in): ?>
 
         <li class="nav_item <?php echo $selected == 'home' ? 'nav_selected' : ''; ?>">
@@ -33,16 +36,16 @@
 
     <?php endif; ?>
 
-    <?php if ( ! $logged_in): ?>
+    <?php if ($logged_in): ?>
 
-        <li class="nav_item <?php echo $selected == 'login' ? 'nav_selected' : ''; ?>">
+        <li class="nav_item <?php echo $selected == 'settings' ? 'nav_selected' : ''; ?>">
         <?php
             $url = array(
-                'action' => 'login',
+                'action' => 'change_settings',
                 'admin' => FALSE,
                 'controller' => 'users',
             );
-            echo $html->link('Login', $url);
+            echo $html->link('Settings', $url);
         ?>
         </li>
 
@@ -58,6 +61,24 @@
                 'controller' => 'users',
             );
             echo $html->link('Logout', $url);
+        ?>
+        </li>
+
+    <?php endif; ?>
+
+<?php ///////////////////////////
+      // BEGIN LOGGED OUT MENU //
+      /////////////////////////// ?>
+    <?php if ( ! $logged_in): ?>
+
+        <li class="nav_item <?php echo $selected == 'login' ? 'nav_selected' : ''; ?>">
+        <?php
+            $url = array(
+                'action' => 'login',
+                'admin' => FALSE,
+                'controller' => 'users',
+            );
+            echo $html->link('Login', $url);
         ?>
         </li>
 

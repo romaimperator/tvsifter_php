@@ -19,7 +19,6 @@ class User extends AppModel {
         'Activity',
     );
 
-
     // Setup validation rules
     var $validate = array(
         'username' => array(
@@ -193,6 +192,70 @@ class User extends AppModel {
 
         // Check if it is valid
         return preg_match('|^[0-9a-zA-Z_-]+$|', $field);
+    }
+
+
+    /**
+     * Returns the email address of the user
+     */
+    function get_email($user_id) {
+        // Sanitize to be safe
+        $user_id = Sanitize::clean($user_id);
+
+        // Setup query parameters
+        $params = array(
+            'contain' => FALSE,
+            'conditions' => array(
+                'User.id =' => $user_id,
+            ),
+            'fields' => array(
+                'User.email',
+            ),
+        );
+
+        // Perform Query
+        $email = $this->cache('first', $params);
+
+        // Return only the email address
+        return Sanitize::clean($email['User']['email']);
+    }
+
+
+    /**
+     * Save the new_password for the user id
+     */
+    function change_password($user_id, $new_password) {
+        // Load the Auth component
+        App::import('Component', 'Auth');
+        $this->Auth = new AuthComponent();
+
+        // Sanitize to be safe
+        $user_id = Sanitize::clean($user_id);
+
+        // Set the user id
+        $this->id = $user_id;
+
+        // Hash the new password
+        $hashed = $this->Auth->password($new_password);
+
+        // Set the new password and save
+        $this->saveField('password', $hashed);
+    }
+
+    
+    /**
+     * Save the new_email for the user id
+     */
+    function change_email($user_id, $new_email) {
+        // Sanitize to be safe
+        $user_id = Sanitize::clean($user_id);
+        $new_email = Sanitize::clean($new_email);
+
+        // Set the user id
+        $this->id = $user_id;
+
+        // Save the email
+        $this->saveField('email', $new_email);
     }
 
 

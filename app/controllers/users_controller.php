@@ -2,6 +2,75 @@
 
 class UsersController extends AppController {
     /**
+     * Change the user's email and password and anything in the future
+     */
+    function change_settings() {
+        // Check if the user is logged in
+        if ($id = $this->Auth->user('id')) {
+            
+            // Check if this is the post of updated information or just getting
+            // the form
+            if ($this->data) {
+                // Process the change
+                $this->process_change_settings();
+            }
+
+            // Set variables and render the page
+            $this->set('email', $this->User->get_email($id));
+            $this->set('selected', 'settings');
+        } else {
+            $this->redirect(array('controller' => 'users', 'action' => 'login'));
+        }
+    }
+
+
+    /**
+     * Processes a change from the change_settings function
+     */
+    function process_change_settings() {
+        // Get the logged in user id
+        $id = $this->Auth->user('id');
+
+        // Sanitize the submitted data
+        $data = Sanitize::clean($this->data);
+
+        // Validate the submitted data
+        $this->User->set($data);
+        if ($this->User->validates()) {
+
+            // Check if we are processing a new email or password
+            if (isset($data['User']['clear_password'])) {
+                // Updating the password
+                // The password is hashed in the user function
+                $new_password = $data['User']['clear_password'];
+
+                $this->User->change_password($id, $new_password);
+
+                // Clear the form on success
+                $this->data = array();
+
+                // Set flash showing success
+                $this->set('success', 'Your password has been changed successfully.');
+            } else if (isset($data['User']['email'])) {
+                // Updating the email
+                $new_email = $data['User']['email'];
+
+                $this->User->change_email($id, $new_email);
+
+                // Clear the form on success
+                $this->data = array();
+
+                // Set flash showing success
+                $this->set('success', 'Your email has been changed successfully.');
+            } else {
+                // Uh oh...we should never get thees
+                debug('The data validated but the clear_password and email fields were not set in change_settings.');
+            }
+        }
+    }
+
+
+    /**
      * Logs the user in after validating password
      */
     function login() {
