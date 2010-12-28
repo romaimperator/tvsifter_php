@@ -62,7 +62,6 @@ class PagesController extends AppController {
             'landing' => '+1 hour',
         );
 
-
 /**
  * Disable authentication for display action
  */

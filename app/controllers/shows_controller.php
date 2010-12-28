@@ -19,6 +19,10 @@ class ShowsController extends AppController {
         
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
     /**
      * Marks the show as followed by the currently logged in user
      */
