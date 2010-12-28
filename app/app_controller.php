@@ -7,6 +7,7 @@ class AppController extends Controller {
         'Html',
         'Form',
         'Javascript',
+        'ElementCombiner.elementcombiner',
     );
 
     var $components = array(
