@@ -58,9 +58,7 @@ class PagesController extends AppController {
 /**
  * Enable caching
  */
-        var $cacheAction = array(
-            'landing' => '+1 hour',
-        );
+        var $cacheAction = FALSE;
 
 /**
  * Disable authentication for display action
