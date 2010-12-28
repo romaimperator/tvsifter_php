@@ -4,7 +4,7 @@ require 'railsless-deploy'
 
 set :application, "tvsifter.com"
 set :repository,  "git@github.com:romaimperator/tvsifter.git"
-set :branch, "master"
+set :branch, "release"
 set :scm, :git
 
 set :shared_children, %w(cache logs)
