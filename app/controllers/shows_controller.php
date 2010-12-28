@@ -10,7 +10,14 @@ class ShowsController extends AppController {
         'Js',
     );
 
-    var $cacheAction = '+1 hour';
+    /**
+     * Displays the data about a specific show
+     *
+     * @param show_id can be an id or show name
+     */
+    function view($show_id) {
+        
+    }
 
     /**
      * Marks the show as followed by the currently logged in user

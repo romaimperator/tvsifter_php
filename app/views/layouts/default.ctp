@@ -43,9 +43,11 @@
                         <div id="logo"><a href="/"><?php echo $html->image('tvsifter_logo.png'); ?></a></div>
 		</div>
 		<div id="content">
+                        <cake:nocache>
                         <?php echo $this->element('navbar', array('cache' => FALSE)); ?>
 
 			<?php echo $this->Session->flash(); ?>
+                        </cake:nocache>
 
 			<?php echo $content_for_layout; ?>
 

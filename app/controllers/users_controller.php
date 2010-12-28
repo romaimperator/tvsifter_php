@@ -1,7 +1,6 @@
 <?php
 
 class UsersController extends AppController {
-    var $cacheAction = '+1 hour';
 
     /**
      * Change the user's email and password and anything in the future
@@ -87,6 +86,7 @@ class UsersController extends AppController {
                 $this->redirect($this->Auth->loginRedirect);
             } else {
                 // On error show error message
+                debug('Login Failed');
                 $this->Session->setFlash('Login failed. Check that both the username and password are correct.');
             }
         }

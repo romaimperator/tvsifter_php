@@ -58,7 +58,9 @@ class PagesController extends AppController {
 /**
  * Enable caching
  */
-        var $cacheAction = '+1 hours';
+        var $cacheAction = array(
+            'landing' => '+1 hour',
+        );
 
 
 /**
@@ -68,6 +70,11 @@ class PagesController extends AppController {
             parent::beforeFilter();
 
             $this->Auth->allow('display');
+        }
+/**
+ * Shows landing page
+ */
+        function landing() {
         }
 
 /**

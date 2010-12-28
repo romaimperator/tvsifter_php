@@ -62,6 +62,11 @@ namespace :deploy do
         # link the tmp
         run "rm -rf #{current_release}/app/tmp"
         run "ln -s #{shared_path}/tmp #{current_release}/app/tmp"
+
+        # Create the ccss and cjs folders and assign permissions
+        run "mkdir #{current_release}/app/webroot/cjs #{current_release}/app/webroot/ccss"
+        run "chmod 766 #{current_release}/app/webroot/cjs"
+        run "chmod 766 #{current_release}/app/webroot/ccss"
     end
 
     namespace :web do
