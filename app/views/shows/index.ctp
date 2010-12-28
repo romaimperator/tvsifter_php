@@ -3,4 +3,6 @@
     $html->script('shows/index.js', FALSE);
 ?>
 
-<?php echo $elementcombiner->element('shows/index', array('cache' => array('key' => $user_id, 'time' => '+1 second'))); ?>
+<cake:nocache>
+<?php echo $elementcombiner->element('shows/index', array('cache' => array('key' => $user_id, 'time' => '+10 minutes'))); ?>
+</cake:nocache>

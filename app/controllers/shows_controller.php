@@ -11,6 +11,16 @@ class ShowsController extends AppController {
     );
 
     /**
+     * Displays the data about a specific show
+     *
+     * @param show_id can be an id or show name
+     */
+    function view($show_id) {
+        
+    }
+
+
+    /**
      * Marks the show as followed by the currently logged in user
      */
     function follow($show_id) {

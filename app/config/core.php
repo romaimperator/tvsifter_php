@@ -102,7 +102,16 @@
  * or in each action using $this->cacheAction = true.
  *
  */
-	//Configure::write('Cache.check', true);
+	Configure::write('Cache.check', true);
+/**
+ * Define the file name for the root '/' page.
+ *
+ * If you have a controller action named this then change this name to something
+ * else so that the cached files do not conflict.
+ *
+ * Default: 'home'
+ */
+        Configure::write('Cache.rootFileName', 'landing');
 
 /**
  * Defines the default error type when using the log() function. Used for
