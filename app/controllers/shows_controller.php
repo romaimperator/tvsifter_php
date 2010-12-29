@@ -16,7 +16,30 @@ class ShowsController extends AppController {
      * @param show_id can be an id or show name
      */
     function view($show_id) {
-        
+        // Sanitize to be safe
+        $show_id = Sanitize::clean($show_id);
+
+        // Set the variable for the view
+        $this->set(compact('show_id'));
+    }
+    
+
+    /**
+     * Returns the show data
+     *
+     * @param show_id can be an id or show name
+     */
+    function view_info($show_id) {
+        if (isset($this->params['requested'])) {
+            // Sanitize to be safe
+            $show_id = Sanitize::clean($show_id);
+
+            // Query for the show info
+            $show_info = $this->Show->get_show($show_id);
+            
+            // Return data
+            return $show_info;
+        }
     }
 
 

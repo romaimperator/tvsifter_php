@@ -23,7 +23,7 @@ class AppController extends Controller {
 
         $a =& $this->Auth;
 
-        $a->allow('*');
+        //$a->allow('*');
         $a->allow('stats', 'display', 'register', 'login');
 
         $a->authorize = 'actions';

@@ -115,6 +115,7 @@ class AclsController extends AppController {
         $acl->allow($group, 'Users/get_shows');
         $acl->allow($group, 'Users/get_upcoming_episodes');
         $acl->allow($group, 'Users/home');
+        $acl->allow($group, 'Users/change_settings');
 
         $acl->allow($group, 'Shows/follow');
         $acl->allow($group, 'Shows/all');
@@ -124,6 +125,8 @@ class AclsController extends AppController {
         $acl->allow($group, 'Shows/unfollow');
         $acl->allow($group, 'Shows/get_next_airing');
         $acl->allow($group, 'Shows/get_last_airing');
+        $acl->allow($group, 'Shows/view');
+        $acl->allow($group, 'Shows/view_info');
 
         $this->set('success', 'Success!');
     }
