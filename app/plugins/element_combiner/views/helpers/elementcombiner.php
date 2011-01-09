@@ -15,8 +15,18 @@ class ElementCombinerHelper extends Helper {
         App::import('Helper', 'Html');
         $this->Html = new HtmlHelper();
 
-        $this->Html->css($name, null, array('inline' => FALSE));
-        $this->Html->script($name, array('inline' => FALSE));
+        $css_file_path = ROOT.DS.APP_DIR.DS.'webroot'.DS.'css/'.$name.'.css';
+        $js_file_path = ROOT.DS.APP_DIR.DS.'webroot'.DS.'js/'.$name.'.js';
+
+        //debug($name);
+        //debug($css_file_path);
+
+        if (file_exists($css_file_path)) {
+            $this->Html->css('/css/'.$name, null, array('inline' => FALSE));
+        }
+        if (file_exists($js_file_path)) {
+            $this->Html->script('/js/'.$name, array('inline' => FALSE));
+        }
         return $this->view->element($name, $params, $loadHelpers);
     }
 }

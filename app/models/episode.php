@@ -11,12 +11,15 @@ class Episode extends AppModel {
     );
 
     /**
-     * Returns a list of episodes for the show and season numbers
+     * Returns a list of episodes with the dates as they are from the database.
+     *
+     * Note: It is likely that front-end processing will be needed because
+     * unknown dates are stored as numbers in the date field.
      *
      * @param show_id the id of the show
      * @param season the season to return, 0 for all seasons
      */
-    function get_episodes($show_id, $season) {
+    function get_raw_episodes($show_id, $season) {
         // Sanitize the arguments
         $show_id = Sanitize::clean($show_id);
         $season = Sanitize::clean($season);
@@ -34,12 +37,31 @@ class Episode extends AppModel {
         );
 
         // Filter by season if needed
-        if ($season !== 0) {
+        if ($season != 0) {
             $params['conditions'][] = 'Episode.season = '.$season;
         }
 
         // Perform query
         $episodes = $this->cache('all', $params);
+
+        // Return cleaned data
+        return Sanitize::clean($episodes);
+    }
+
+
+    /**
+     * Returns a list of episodes for the show and season numbers
+     *
+     * @param show_id the id of the show
+     * @param season the season to return, 0 for all seasons
+     */
+    function get_episodes($show_id, $season) {
+        // Sanitize the arguments
+        $show_id = Sanitize::clean($show_id);
+        $season = Sanitize::clean($season);
+
+        // Retrieve the raw data
+        $episodes = $this->get_raw_episodes($show_id, $season);
 
         // Filter air dates
         $episodes = $this->filter_episodes($episodes);
