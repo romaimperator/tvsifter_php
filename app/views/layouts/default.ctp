@@ -32,7 +32,8 @@
                 echo $html->css('site.css', null, array('inline' => FALSE));
                 echo $html->css('navbar', null, array('inline' => FALSE));
 
-                echo $this->Html->script("http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js");
+                //echo $this->Html->script("http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js");
+                echo $this->Html->script('jquery-1.4.4.min.js', array('inline' => FALSE));
 
 		echo $asset->scripts_for_layout();
 	?>

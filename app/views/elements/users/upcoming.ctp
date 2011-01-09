@@ -1,10 +1,10 @@
 <?php
     $episodes = $this->requestAction(array('controller' => 'users', 'action' => 'get_upcoming_episodes'), array('pass' => array('+6 week')));
 
-    $date_format = 'F j, Y';
+    $date_format = 'F j, Y'; // example: January 20, 2010
 
-    $html->css('users/upcoming', null, array('inline' => FALSE));
-    $html->script('users/upcoming.js', array('inline' => FALSE));
+    //$html->css('users/upcoming', null, array('inline' => FALSE));
+    //$html->script('users/upcoming.js', array('inline' => FALSE));
 ?>
 
 <div id="episodes">
