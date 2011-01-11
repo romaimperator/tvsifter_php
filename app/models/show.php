@@ -344,24 +344,16 @@ class Show extends AppModel {
         $this->Episode->create();
         $s_e = $this->_parse_episode_season($dom_element);
         if ($s_e) {
+            $name = $this->_parse_name($dom_element);
             $overall_episode = $this->_parse_overall_episode($dom_element);
             $show_id = $this->id;
+            $episode = $s_e[2];
+            $season = $s_e[1];
+            $air_date = $this->_parse_air_date($dom_element);
 
             // Only continue if this episode does not already exist
-            $params = array(
-                'contain' => false,
-                'conditions' => array(
-                    'Episode.overall_episode =' => $overall_episode,
-                    'Episode.show_id =' => $show_id,
-                ),
-                'fields' => array('overall_episode', 'show_id'),
-            );
-            if ( ! $this->Episode->find('first', $params)) {
-                $name = $this->_parse_name($dom_element);
-                $episode = $s_e[2];
-                $season = $s_e[1];
-                $air_date = $this->_parse_air_date($dom_element);
-
+            if ( ! $ep_id = $this->_episode_exists($show_id, $season, $episode, $air_date)) {
+                // If the episode doesn't exist then add it
                 $this->Episode->set('name', $name);
                 $this->Episode->set('overall_episode', $overall_episode);
                 $this->Episode->set('episode', $episode);
@@ -369,8 +361,90 @@ class Show extends AppModel {
                 $this->Episode->set('air_date', $air_date);
                 $this->Episode->set('show_id', $show_id);
                 $this->Episode->save();
+            } else {
+                // If it does check for updates
+                $data = array(
+                    'id' => $ep_id,
+                    'name' => $name,
+                    'overall_episode' => $overall_episode,
+                    'season' => $season,
+                    'episode' => $episode,
+                    'air_date' => $air_date,
+                    'show_id' => $show_id,
+                );
+                $this->_episode_updated($data);
             }
         }
+    }
+
+
+    /**
+     * Checks to see if the episode has updated information.
+     *
+     * @param data a hash containing the episode data supporting the following:
+     *     id episode id (required)
+     *     name episode name
+     *     show_id id of show
+     *     season season number
+     *     episode episode number
+     *     air_date date episode aired
+     *     overall_episode the total episode number
+     *     description episode description
+     */
+    function _episode_updated($data) {
+        // Fail if no id
+        if ( ! isset($data['id'])) {
+            return false;
+        }
+
+        // Query for the current data
+        $this->Episode->id = $data['id'];
+        $this->Episode->read();
+        $episode = $this->Episode->data['Episode'];
+
+        // Check if any of it is different and if so update it
+        foreach ($data as $key => $value) {
+            // Check if the key is valid and if it is then see if the saved
+            // value is different than the new value
+            if (isset($episode[$key]) && $data[$key] != $episode[$key]) {
+                // if the value is different then save the new, updated value
+                $this->Episode->saveField($key, $data[$key]);
+            }
+        }
+
+        // Return success
+        return true;
+    }
+
+
+    /**
+     * Checks to see if the episode already exists in the database.
+     *
+     * @param show_id id of show
+     * @param season season number
+     * @param episode episode number
+     * @param air_date date episode aired
+     */
+    function _episode_exists($show_id, $season, $episode, $air_date) {
+        // Setup query parameters
+        $params = array(
+            'contain' => FALSE,
+            'conditions' => array(
+                'Episode.show_id =' => $show_id,
+                'Episode.episode =' => $episode,
+                'Episode.season =' => $season,
+                'Episode.air_date =' => $air_date,
+            ),
+            'fields' => array(
+                'Episode.id',
+            ),
+        );
+
+        // Query to find out if it exists
+        $episode = $this->Episode->cache('first', $params);
+
+        // Return answer
+        return ($episode) ? $episode['Episode']['id'] : false;
     }
 
 
@@ -385,7 +459,7 @@ class Show extends AppModel {
         //echo "element value:'",$element->nodeValue,"'";
         $date = str_replace(array(" ","\n"), "", $element->nodeValue);
         $match = array();
-        preg_match("/(\d+)\/(\w+)\/(\d+)/", $date, $match);
+        preg_match("/(\d+)\s*\/\s*(\w+)\s*\/\s*(\d+)/", $date, $match);
         return date( 'Y-m-d H:i:s', strtotime($match[2].'-'.$match[1].'-'.$match[3]));
     }
 

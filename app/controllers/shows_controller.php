@@ -11,6 +11,15 @@ class ShowsController extends AppController {
     );
 
     /**
+     * Test action
+     */
+    function test() {
+        $this->Auth->allow();
+
+        $this->Show->test();
+    }
+
+    /**
      * Displays the data about a specific show
      *
      * @param show_id can be an id or show name
