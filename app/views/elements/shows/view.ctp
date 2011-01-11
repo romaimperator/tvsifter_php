@@ -37,7 +37,7 @@
 
             <?php foreach($show['Episode'] as $e): ?>
 
-                <?php if ($unaired && (strtotime($e['Episode']['air_date']) <= time() && $e['Episode']['air_date'] != "Unknown")): ?>
+                <?php if ($unaired && (strtotime($e['Episode']['air_date']) <= time() - 60*60*24 && $e['Episode']['air_date'] != "Unknown")): ?>
                     <tr class="separator">
                         <td colspan="4">
                             <span class="left">Previously Aired</span>

@@ -34,17 +34,20 @@ function process_episodes(result) {
                   'September', 'October', 'November', 'December'];
 
     var current_day = new Date();
+    current_day.setTime(current_day.getTime() - (1000*60*60*24));
     var unaired = false;
 
     // Loop through the results
     $.each(result, function(r, episode) {
         var d = new Date(episode.Episode.air_date);
 
+        // Check if the aired separator is needed yet
         if ( ! unaired && d < current_day) {
             var tr = "<tr class=\"separator\"><td colspan=\"4\"><span class=\"left\">Previously Aired</span><hr></td></tr>";
             $('#episodes_table').append(tr);
             unaired = true;
         }
+
         // Create the tds for the episode information
         var name = "<td>" + episode.Episode.name + "</td>";
         var season = "<td class=\"center\">" + episode.Episode.season + "</td>";
