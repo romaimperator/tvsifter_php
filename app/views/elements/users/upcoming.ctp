@@ -27,7 +27,15 @@
 
                     <?php $cur_time = $e['Episode']['air_date']; ?>
 
-                    <?php echo date($date_format, strtotime($cur_time)); ?>
+                    <?php //echo date($date_format, strtotime($cur_time)); ?>
+
+                    <?php
+                        if ($cur_time == date('Y-m-d')) {
+                            echo 'Today';
+                        } else {
+                            echo 'in ', (strtotime($cur_time) - strtotime(date('Y-m-d'))) / 24 / 60 / 60, ' day(s)';
+                        }
+                    ?>
                     
                 <?php endif; ?>
 
