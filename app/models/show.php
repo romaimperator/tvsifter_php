@@ -424,7 +424,7 @@ class Show extends AppModel {
             $air_date = $this->_parse_air_date($dom_element);
 
             // Only continue if this episode does not already exist
-            if ( ! $ep_id = $this->_episode_exists($show_id, $season, $episode, $air_date)) {
+            if ( ! $ep_id = $this->_episode_exists($show_id, $season, $episode)) {
                 // If the episode doesn't exist then add it
                 $this->Episode->set('name', $name);
                 $this->Episode->set('overall_episode', $overall_episode);
@@ -495,9 +495,8 @@ class Show extends AppModel {
      * @param show_id id of show
      * @param season season number
      * @param episode episode number
-     * @param air_date date episode aired
      */
-    function _episode_exists($show_id, $season, $episode, $air_date) {
+    function _episode_exists($show_id, $season, $episode) {
         // Setup query parameters
         $params = array(
             'contain' => FALSE,
@@ -505,7 +504,6 @@ class Show extends AppModel {
                 'Episode.show_id =' => $show_id,
                 'Episode.episode =' => $episode,
                 'Episode.season =' => $season,
-                'Episode.air_date =' => $air_date,
             ),
             'fields' => array(
                 'Episode.id',
