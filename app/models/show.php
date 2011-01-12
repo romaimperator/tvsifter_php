@@ -325,11 +325,43 @@ class Show extends AppModel {
 
         // Query for the list
         $names = $this->cache('list', $params);
-        
-        debug($names);
 
         // Return cleaned data
         return Sanitize::clean($names);
+    }
+
+
+    /**
+     * Refreshes all of the episodes at once. 
+     * TODO: Add support for spacing out the queries. (naturally processing
+     * will do this to some extent)
+     */
+    function refresh_all() {
+        // Retrieve the names of all of the shows
+        $show_names = $this->get_all_names();
+
+        // Call refresh for each name
+        foreach($show_names as $name) {
+            $this->refresh($name);
+        }
+    }
+
+
+    /**
+     * Refreshes a show of the given name.
+     *
+     * @param name the name of the show to refresh
+     */
+    function refresh($name) {
+        // Create the address to get
+        $show_addr = 'http://www.tvrage.com/'.$name.'/episode_list/all';
+
+        // the utf8 decode is necessary because otherwise the show names
+        // must be decoded twice before rendered to view
+        $episode_list_html = utf8_decode(file_get_contents($show_addr));
+
+        // Parse the response and update the episodes
+        return $this->parse_html($episode_list_html);
     }
 
 
@@ -350,7 +382,8 @@ class Show extends AppModel {
         foreach($episodes as $e) {
             $this->_parse_episode($e);
         }
-	return $this->_set_max_season();
+	$this->_set_max_season();
+        return true;
     }
 
 

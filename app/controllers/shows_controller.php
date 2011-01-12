@@ -16,7 +16,7 @@ class ShowsController extends AppController {
     function test() {
         $this->Auth->allow();
 
-        $this->Show->test();
+        $this->Show->refresh_all();
     }
 
     /**
