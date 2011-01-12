@@ -1,1 +1,1 @@
-* * */1 * * /home/deploy/tvsifter.com/shared/cake/console/cake refresh refresh -app /home/deploy/tvsifter.com/current/app >> /home/deploy/tvsifter.com/shared/refresh.log 2>&1
+0 0 * * * /home/deploy/tvsifter.com/shared/cake/console/cake refresh refresh -app /home/deploy/tvsifter.com/current/app >> /home/deploy/tvsifter.com/shared/refresh.log 2>&1
