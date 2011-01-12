@@ -1,0 +1,1 @@
+* */1 * * * /home/dan/Dropbox/tvsifter/cake/console/cake refresh refresh -app /home/dan/Dropbox/tvsifter/app > /home/dan/Dropbox/tvsifter/refresh.log 2>&1

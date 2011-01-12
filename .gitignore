@@ -11,3 +11,5 @@
 /app/webroot/cjs/
 
 /app/webroot/apc.php
+
+/refresh.log

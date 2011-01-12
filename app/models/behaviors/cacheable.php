@@ -10,6 +10,9 @@
  * @copyright 
  * @dependencies Clear_Cache Plugin by Ceeram https://github.com/ceeram/clear_cache
  **/
+
+App::import('Core', 'Security');
+
 class CacheableBehavior extends ModelBehavior {
 
 	/**
