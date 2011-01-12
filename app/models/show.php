@@ -257,6 +257,9 @@ class Show extends AppModel {
         // Perform the query
         $episode = $this->Episode->cache('first', $params);
 
+        // Sanitize it
+        $episode = Sanitize::clean($episode);
+
         // Check if there is a next airing or not
         if ( ! isset($episode['Episode']['air_date'])) {
             return 'Not Available';
@@ -295,6 +298,9 @@ class Show extends AppModel {
 
         // Perform the query
         $episode = $this->Episode->cache('first', $params);
+
+        // Sanitize it
+        $episode = Sanitize::clean($episode);
 
         // Check if there is a next airing or not
         if ( ! isset($episode['Episode']['air_date'])) {
