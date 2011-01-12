@@ -52,7 +52,7 @@ namespace :deploy do
         #override the rest of the default method
 
         # link cake
-        run "ln -s #{shared_path}/cakephp #{current_release}/cake"
+        run "ln -s #{shared_path}/cake #{current_release}/cake"
 
         # link config files
         run "rm -rf #{current_release}/app/config/core.php"
