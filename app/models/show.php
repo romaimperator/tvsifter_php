@@ -340,9 +340,11 @@ class Show extends AppModel {
         // Retrieve the names of all of the shows
         $show_names = $this->get_all_names();
 
+        debug($show_names);
+
         // Call refresh for each name
-        foreach($show_names as $name) {
-            $this->refresh($name);
+        foreach($show_names as $id => $name) {
+            $this->refresh($id, $name);
         }
     }
 
@@ -350,25 +352,34 @@ class Show extends AppModel {
     /**
      * Refreshes a show of the given name.
      *
+     * @param id the show id
      * @param name the name of the show to refresh
      */
-    function refresh($name) {
+    function refresh($id, $name) {
         // Create the address to get
         $show_addr = 'http://www.tvrage.com/'.$name.'/episode_list/all';
 
         // the utf8 decode is necessary because otherwise the show names
         // must be decoded twice before rendered to view
-        $episode_list_html = utf8_decode(file_get_contents($show_addr));
+        if ($page = file_get_contents($show_addr)) {
+            $episode_list_html = utf8_decode($page);
+        } else {
+            debug('Failed to get page for show : '.$name);
+            return false;
+        }
 
         // Parse the response and update the episodes
-        return $this->parse_html($episode_list_html);
+        return $this->parse_html($episode_list_html, $id);
     }
 
 
 /*******************************/
 /* BEGIN THE REFRESH FUNCTIONS */
 /*******************************/
-    function parse_html($html) {
+    function parse_html($html, $show_id) {
+        // Load the show data
+        $this->id = $show_id;
+
         // Load the html into the html parser
 	libxml_use_internal_errors(true);
         $dom = DOMDocument::loadHtml($html);
@@ -521,7 +532,11 @@ class Show extends AppModel {
         $date = str_replace(array(" ","\n"), "", $element->nodeValue);
         $match = array();
         preg_match("/(\d+)\s*\/\s*(\w+)\s*\/\s*(\d+)/", $date, $match);
-        return date( 'Y-m-d H:i:s', strtotime($match[2].'-'.$match[1].'-'.$match[3]));
+        if (!isset($match[3])) {
+            return date( 'Y-m-d', 0);
+        } else {
+            return date( 'Y-m-d', strtotime($match[2].'-'.$match[1].'-'.$match[3]));
+        }
     }
 
 
