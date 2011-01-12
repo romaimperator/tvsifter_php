@@ -10,9 +10,9 @@ class RefreshShell extends Shell {
         $this->Daemon->execute('refresh'); 
         //Configure::write('debug', 0); 
         $start = time();
-        $this->out(date('Y-m-d H:i:s', time()).'Beginning refresh...'); 
+        $this->out(date('Y-m-d H:i:s', time()).' Beginning refresh...'); 
         $this->Show->refresh_all();
-        $this->out(date('Y-m-d H:i:s', time()).'Ending refresh...');
+        $this->out(date('Y-m-d H:i:s', time()).' Ending refresh...');
         $end = time();
         $this->out('Update took '.$end-$start.' seconds to complete.');
     } 
