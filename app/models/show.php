@@ -305,6 +305,28 @@ class Show extends AppModel {
     }
 
 
+    /**
+     * Returns a list of all the show names. (not the display_name)
+     */
+    function get_all_names() {
+        // Setup query params
+        $params = array(
+            'contain' => FALSE,
+            'fields' => array(
+                'Show.name',
+            ),
+        );
+
+        // Query for the list
+        $names = $this->cache('list', $params);
+        
+        debug($names);
+
+        // Return cleaned data
+        return Sanitize::clean($names);
+    }
+
+
 /*******************************/
 /* BEGIN THE REFRESH FUNCTIONS */
 /*******************************/
