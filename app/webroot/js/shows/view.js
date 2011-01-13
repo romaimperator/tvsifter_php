@@ -16,7 +16,7 @@ function show(season) {
 
     if (typeof(show_id) != 'undefined' && typeof(show_id) != 'undefined') {
         // Retrieve the episodes
-        $.getJSON('/episodes/get_episodes/'+show_id+'/'+season, function(result) {
+        $.getJSON(request_url, function(result) {
             // Reset the current table
             reset_table();
 
