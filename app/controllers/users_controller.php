@@ -16,8 +16,10 @@ class UsersController extends AppController {
                 $this->process_change_settings();
             }
 
+            $email = Sanitize::clean($this->User->get_email($id));
+
             // Set variables and render the page
-            $this->set('email', $this->User->get_email($id));
+            $this->set('email', $email);
             $this->set('selected', 'settings');
         } else {
             $this->redirect(array('controller' => 'users', 'action' => 'login'));
@@ -152,7 +154,7 @@ class UsersController extends AppController {
             $id = $this->Auth->user('id');
 
             if ($id) {
-                return $this->User->get_friend_info($id);
+                return Sanitize::clean($this->User->get_friend_info($id));
             } else {
                 $this->redirect(array('admin' => FALSE, 'controller' => 'users', 'action' => 'login'));
             }
@@ -169,7 +171,7 @@ class UsersController extends AppController {
             $id = $this->Auth->user('id');
             
             if ($id) {
-                return $this->User->get_friend_activity($id);
+                return Sanitize::clean($this->User->get_friend_activity($id));
             } else {
                 $this->redirect(array('admin' => FALSE, 'controller' => 'users', 'action' => 'login'));
             }
@@ -185,7 +187,7 @@ class UsersController extends AppController {
             $id = $this->Auth->user('id');
 
             if ($id) {
-                return $this->User->get_shows($id);
+                return Sanitize::clean($this->User->get_shows($id));
             } else {
                 $this->redirect(array('admin' => FALSE, 'controller' => 'users', 'action' => 'login'));
             }
@@ -206,7 +208,7 @@ class UsersController extends AppController {
 
             if ($id) {
                 // Run query
-                return $this->User->get_upcoming_episodes($id, $date);
+                return Sanitize::clean($this->User->get_upcoming_episodes($id, $date));
             } else {
                 $this->redirect(array('admin' => FALSE, 'controller' => 'users', 'action' => 'login'));
             }
@@ -223,8 +225,10 @@ class UsersController extends AppController {
         if ($id) {
             $user = $this->User->get_user_info($id);
 
+            $username = Sanitize::clean($user['User']['username']);
+
             $this->set('selected', 'home'); // 1 being assigned to the Home link in navbar.ctp
-            $this->set('username', $user['User']['username']);
+            $this->set('username', $username);
             $this->set('user_id', $id);
         } else {
             $this->redirect(array('admin' => FALSE, 'controller' => 'users', 'action' => 'login'));

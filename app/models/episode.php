@@ -44,8 +44,7 @@ class Episode extends AppModel {
         // Perform query
         $episodes = $this->cache('all', $params);
 
-        // Return cleaned data
-        return Sanitize::clean($episodes);
+        return $episodes;
     }
 
 
@@ -66,7 +65,7 @@ class Episode extends AppModel {
         // Filter air dates
         $episodes = $this->filter_episodes($episodes);
 
-        return Sanitize::clean($episodes);
+        return $episodes;
     }
 
 

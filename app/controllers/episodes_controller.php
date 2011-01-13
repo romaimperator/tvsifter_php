@@ -24,7 +24,7 @@ class EpisodesController extends AppController {
             $season = Sanitize::clean($season);
 
             // Retrieve the episodes
-            $episodes = $this->Episode->get_episodes($show_id, $season);
+            $episodes = Sanitize::clean($this->Episode->get_episodes($show_id, $season);
 
             // Set the output
             $this->set(compact('episodes'));
@@ -51,7 +51,7 @@ class EpisodesController extends AppController {
             $season = Sanitize::clean($season);
 
             // Retrieve the episodes
-            $episodes = $this->Episode->get_episodes($show_id, $season);
+            $episodes = Sanitize::clean($this->Episode->get_episodes($show_id, $season));
 
             // Set the output
             $this->set(compact('episodes'));

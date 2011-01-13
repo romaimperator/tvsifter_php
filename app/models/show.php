@@ -49,10 +49,7 @@ class Show extends AppModel {
         
         $show_info['Episode'] = $episode->get_episodes($show_info['Show']['id'], $show_info['Show']['season_count']);
 
-        //debug($show_info);
-
-        // Return the cleaned data
-        return Sanitize::clean($show_info);
+        return $show_info;
     }
 
 
@@ -64,7 +61,7 @@ class Show extends AppModel {
         $show_count = $this->cache('count');
 
         // Return cleaned count
-        return Sanitize::clean($show_count);
+        return $show_count;
     }
 
 
@@ -117,8 +114,7 @@ class Show extends AppModel {
         // Perform query
         $names = $this->cache('all', $params);
         
-        // Return clean data
-        return Sanitize::clean($names);
+        return $names;
     }
 
 
@@ -150,8 +146,7 @@ class Show extends AppModel {
         // Perform query
         $show_ids = $this->cache('list', $params);
 
-        // Return the cleaned data
-        return Sanitize::clean($show_ids);
+        return $show_ids;
     }
 
 
@@ -176,8 +171,7 @@ class Show extends AppModel {
         // Perform query
         $names = $this->cache('all', $params);
         
-        // Return the cleaned data
-        return Sanitize::clean($names);
+        return $names;
     }
 
     
@@ -222,8 +216,7 @@ class Show extends AppModel {
         // Perform query
         $shows = $this->cache('all', $params);
 
-        // Return cleaned list
-        return Sanitize::clean($shows);
+        return $shows;
     }
 
     /**
@@ -256,9 +249,6 @@ class Show extends AppModel {
 
         // Perform the query
         $episode = $this->Episode->cache('first', $params);
-
-        // Sanitize it
-        $episode = Sanitize::clean($episode);
 
         // Check if there is a next airing or not
         if ( ! isset($episode['Episode']['air_date'])) {
@@ -299,9 +289,6 @@ class Show extends AppModel {
         // Perform the query
         $episode = $this->Episode->cache('first', $params);
 
-        // Sanitize it
-        $episode = Sanitize::clean($episode);
-
         // Check if there is a next airing or not
         if ( ! isset($episode['Episode']['air_date'])) {
             return 'Not Available';
@@ -326,8 +313,7 @@ class Show extends AppModel {
         // Query for the list
         $names = $this->cache('list', $params);
 
-        // Return cleaned data
-        return Sanitize::clean($names);
+        return $names;
     }
 
 
@@ -339,8 +325,6 @@ class Show extends AppModel {
     function refresh_all() {
         // Retrieve the names of all of the shows
         $show_names = $this->get_all_names();
-
-        debug($show_names);
 
         // Call refresh for each name
         foreach($show_names as $id => $name) {

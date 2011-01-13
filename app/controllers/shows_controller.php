@@ -44,7 +44,7 @@ class ShowsController extends AppController {
             $show_id = Sanitize::clean($show_id);
 
             // Query for the show info
-            $show_info = $this->Show->get_show($show_id);
+            $show_info = Sanitize::clean($this->Show->get_show($show_id));
             
             // Return data
             return $show_info;
@@ -82,7 +82,7 @@ class ShowsController extends AppController {
             $this->layout = 'ajax';
             
             // Grab the data
-            $show_names = $this->Show->get_all_show_names();
+            $show_names = Sanitize::clean($this->Show->get_all_show_names());
 
             // Set the return value
             $this->set('show_names', $show_names);
@@ -103,7 +103,7 @@ class ShowsController extends AppController {
 
             if ($user_id) {
                 // Grab the data
-                $show_names = $this->Show->get_all_show_names($user_id);
+                $show_names = Sanitize::clean($this->Show->get_all_show_names($user_id));
 
                 // Set the return
                 $this->set('show_names', $show_names);
@@ -124,7 +124,7 @@ class ShowsController extends AppController {
             $this->layout = 'ajax';
 
             // Grab the similar matches
-            $show_names = $this->Show->get_similar_show_names($this->data['Show']['display_name']);
+            $show_names = Sanitize::clean($this->Show->get_similar_show_names($this->data['Show']['display_name']));
 
             // Return values
             $this->set('show_names', $show_names);
@@ -139,7 +139,7 @@ class ShowsController extends AppController {
         $user_id = $this->Auth->user('id');
 
         if ($user_id) {
-            $shows = $this->Show->get_tracked_shows($user_id);
+            $shows = Sanitize::clean($this->Show->get_tracked_shows($user_id));
 
             $this->set('selected', 'my shows'); // 2 being the number assigned to the Your Shows link in navbar.ctp
             $this->set('user_id', $user_id);
@@ -181,7 +181,7 @@ class ShowsController extends AppController {
             $show_id = Sanitize::clean($show_id);
 
             // Query for the date
-            return $this->Show->get_next_airing($show_id);
+            return Sanitize::clean($this->Show->get_next_airing($show_id));
         }
     }
 
@@ -195,7 +195,7 @@ class ShowsController extends AppController {
             $show_id = Sanitize::clean($show_id);
 
             // Query for the date
-            return $this->Show->get_last_airing($show_id);
+            return Sanitize::clean($this->Show->get_last_airing($show_id));
         }
     }
 
@@ -241,6 +241,6 @@ class ShowsController extends AppController {
         $this->Show->save($show);
 
         // parse the received html and store the episode list
-        $this->set('response', $this->Show->parse_html($episode_list_html));
+        $this->set('response', Sanitize::clean($this->Show->parse_html($episode_list_html)));
     }
 }

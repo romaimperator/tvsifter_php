@@ -36,6 +36,6 @@ class Activity extends AppModel {
         $activity = $this->cache('all', $params);
 
         // Return the cleaned array
-        return Sanitize::clean($activity);
+        return $activity;
     }
 }

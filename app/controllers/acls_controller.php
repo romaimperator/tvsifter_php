@@ -195,7 +195,7 @@ class AclsController extends AppController {
                 }
             }
         }
-        debug($log);
-        $this->set('log', $log);
+        debug(Sanitize::clean($log));
+        $this->set('log', Sanitize::clean($log));
     }
 }
