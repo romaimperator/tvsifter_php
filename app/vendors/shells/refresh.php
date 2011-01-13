@@ -13,7 +13,7 @@ class RefreshShell extends Shell {
         $this->out(date('Y-m-d H:i:s', time()).' Beginning refresh...'); 
         $this->Show->refresh_all();
         $this->out(date('Y-m-d H:i:s', time()).' Ending refresh...');
-        $end = time();
-        $this->out('Update took '.$end-$start.' seconds to complete.');
+        $total_time = time() - $start;
+        $this->out('Update took '.$total_time.' seconds to complete.');
     } 
 }

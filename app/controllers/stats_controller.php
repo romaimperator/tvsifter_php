@@ -13,9 +13,10 @@ class StatsController extends AppController {
         $this->User = new User();
         $this->Show = new Show();
 
-        $stats['user_count'] = $this->User->get_count();
-        $stats['show_count'] = $this->Show->get_count();
-        $stats['avg_follow_count'] = $this->User->get_average_follow_count();
+        $stats = array();
+        $stats['user_count'] = Sanitize::clean($this->User->get_count());
+        $stats['show_count'] = Sanitize::clean($this->Show->get_count());
+        $stats['avg_follow_count'] = Sanitize::clean($this->User->get_average_follow_count());
 
         return $stats;
     }

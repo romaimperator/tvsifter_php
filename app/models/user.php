@@ -217,7 +217,7 @@ class User extends AppModel {
         $email = $this->cache('first', $params);
 
         // Return only the email address
-        return Sanitize::clean($email['User']['email']);
+        return $email['User']['email'];
     }
 
 
@@ -228,9 +228,6 @@ class User extends AppModel {
         // Load the Auth component
         App::import('Component', 'Auth');
         $this->Auth = new AuthComponent();
-
-        // Sanitize to be safe
-        $user_id = Sanitize::clean($user_id);
 
         // Set the user id
         $this->id = $user_id;
@@ -278,7 +275,7 @@ class User extends AppModel {
         $average_count = array_sum($counts) / count($counts);
 
         // Return the average
-        return Sanitize::clean($average_count);
+        return $average_count;
     }
 
 
@@ -289,8 +286,7 @@ class User extends AppModel {
         // Perform count
         $user_count = $this->cache('count');
         
-        // Return cleaned count
-        return Sanitize::clean($user_count);
+        return $user_count;
     }
 
 
@@ -312,8 +308,7 @@ class User extends AppModel {
         // Perform query
         $user = $this->cache('first', $params);
 
-        // Return cleaned data
-        return Sanitize::clean($user);
+        return $user;
     }
 
 
@@ -330,8 +325,7 @@ class User extends AppModel {
         // Get the activity for these friends...say the last 10 items
         $activities = $this->Activity->get_recent_activity($friend_ids, 10);
 
-        // Return the sanitized data
-        return Sanitize::clean($activities);
+        return $activities;
     }
 
 
@@ -372,8 +366,7 @@ class User extends AppModel {
             $ids[] = $id['Friend']['friend_id'];
         }
 
-        // Return the cleaned data
-        return Sanitize::clean($ids);
+        return $ids;
     }
 
 
@@ -402,8 +395,7 @@ class User extends AppModel {
         // Perform query
         $friends = $this->cache('all', $params);
 
-        // Return cleaned data
-        return Sanitize::clean($friends);
+        return $friends;
     }
 
 
@@ -456,8 +448,7 @@ class User extends AppModel {
         // Perform the query to get the shows
         $shows = $this->Show->find('all', $params);
 
-        // Return the cleaned data
-        return Sanitize::clean($shows);
+        return $shows;
     }
 
 
@@ -496,7 +487,6 @@ class User extends AppModel {
         // Perform the query to get the episodes
         $episodes = $this->Episode->find('all', $params);
 
-        // Return the cleaned data
-        return Sanitize::clean($episodes);
+        return $episodes;
     }
 }
