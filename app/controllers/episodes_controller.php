@@ -16,7 +16,7 @@ class EpisodesController extends AppController {
      * @param season season number or 0 for all seasons
      */
     function get_episodes($show_id, $season=0) {
-        //if ($this->params['isAjax']) {
+        if ($this->params['isAjax']) {
             $this->layout = 'ajax';
 
             // Sanitize the input
@@ -24,11 +24,11 @@ class EpisodesController extends AppController {
             $season = Sanitize::clean($season);
 
             // Retrieve the episodes
-            $episodes = Sanitize::clean($this->Episode->get_episodes($show_id, $season);
+            $episodes = Sanitize::clean($this->Episode->get_episodes($show_id, $season));
 
             // Set the output
             $this->set(compact('episodes'));
-        //}
+        }
     }
 
 
@@ -43,7 +43,7 @@ class EpisodesController extends AppController {
      * @param season season number or 0 for all seasons
      */
     function get_raw_episodes($show_id, $season=0) {
-        //if ($this->params['isAjax']) {
+        if ($this->params['isAjax']) {
             $this->layout = 'ajax';
 
             // Sanitize the input
@@ -51,10 +51,10 @@ class EpisodesController extends AppController {
             $season = Sanitize::clean($season);
 
             // Retrieve the episodes
-            $episodes = Sanitize::clean($this->Episode->get_episodes($show_id, $season));
+            $episodes = Sanitize::clean($this->Episode->get_raw_episodes($show_id, $season));
 
             // Set the output
             $this->set(compact('episodes'));
-        //}
+        }
     }
 }
