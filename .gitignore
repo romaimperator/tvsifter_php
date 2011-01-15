@@ -3,7 +3,7 @@
 /cake
 
 /app/config/database.php
-/app/config/config.php
+/app/config/core.php
 
 /app/tmp/
 
