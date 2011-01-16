@@ -38,6 +38,21 @@
 
     <?php if ($logged_in): ?>
 
+        <li class="nav_item <?php echo $selected == 'browse shows' ? 'nav_selected' : ''; ?>">
+        <?php
+            $url = array(
+                'action' => 'search_page',
+                'admin' => FALSE,
+                'controller' => 'shows',
+            );
+            echo $html->link('Browse Shows', $url);
+        ?>
+        </li>
+
+    <?php endif; ?>
+
+    <?php if ($logged_in): ?>
+
         <li class="nav_item <?php echo $selected == 'settings' ? 'nav_selected' : ''; ?>">
         <?php
             $url = array(
