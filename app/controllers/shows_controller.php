@@ -41,6 +41,7 @@ class ShowsController extends AppController {
 
         // Setup for navbar
         $this->set('selected', 'browse shows');
+        $this->set('no_shows_message', 'Uh Oh! It appears that this site has no shows! Please inform us about this problem.');
 
         // Provide the show data to the view
         $this->set(compact('shows'));
@@ -179,6 +180,14 @@ class ShowsController extends AppController {
             $this->set('selected', 'my shows'); // 2 being the number assigned to the Your Shows link in navbar.ctp
             $this->set('user_id', $user_id);
             $this->set('shows', $shows);
+
+            // Add the no shows results message
+            App::import('Helper', 'Html');
+            $html = new HtmlHelper();
+            $search_page_link = $html->link('Browse Shows', array('controller' => 'shows', 'action' => 'search_page'));
+            $this->set('no_shows_message', "It seems you are not following any shows. Go to ".$search_page_link." to see a list of the supported shows.");
+
+            // Render the page
             $this->render('search_page');
         } else {
             $this->redirect(array('controller' => 'users', 'action' => 'login'));

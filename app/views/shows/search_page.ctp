@@ -42,6 +42,9 @@
 
             </tbody>
             </table>
+        <?php elseif (isset($no_shows_message)): ?>
+
+            <?php echo $no_shows_message; ?>
         
         <?php endif; ?>
 
