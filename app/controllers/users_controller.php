@@ -88,7 +88,7 @@ class UsersController extends AppController {
                 $this->redirect($this->Auth->loginRedirect);
             } else {
                 // On error show error message
-                debug('Login Failed');
+                //debug('Login Failed');
                 $this->Session->setFlash('Login failed. Check that both the username and password are correct.');
             }
         }

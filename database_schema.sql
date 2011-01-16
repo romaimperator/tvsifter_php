@@ -76,6 +76,7 @@ CREATE TABLE shows (
     display_name varchar(32) NOT NULL,
     season_count integer,
     episode_count integer,
+    user_count integer,
     created datetime,
     modified datetime
 ) ENGINE = MyISAM DEFAULT CHARACTER SET = utf8 COLLATE = utf8_unicode_ci;
@@ -134,4 +135,4 @@ CREATE UNIQUE INDEX ARO_ACO_KEY ON aros_acos (aro_id, aco_id);
 
 
 -- Add the initial data
-source ../initial_data.sql
+source initial_data.sql

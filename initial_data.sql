@@ -13,7 +13,7 @@ INSERT INTO aros_acos (aro_id, aco_id, _create, _read, _update, _delete) VALUES 
 
 INSERT INTO acos (parent_id, alias, lft, rght) VALUES (NULL, 'controllers', 1, 2);
 
-INSERT INTO users (username, password, email, group_id, created, modified) VALUES ('admin', '1971b78e75ba6d94aaef66ce66aa87336ee760b9', 'admin@gmail.com', 1, now(), now());
+INSERT INTO users (username, password, email, group_id, created, modified) VALUES ('admin', '331021bc258700a2e79d0b7c2a94fd56d7310739', 'admin@gmail.com', 1, now(), now());
 INSERT INTO users (username, password, email, group_id, created, modified) VALUES ('broseph', 'passwordhashthatihaventimplementedyet', 'broseph@gmail.com', 3, now(), now());
 
 INSERT INTO friends (user_id, friend_id, created, modified) VALUES (1, 2, now(), now());

@@ -1,0 +1,95 @@
+/* Setup the values for the show block */
+#search {
+    width: 512px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+#search tr {
+    vertical-align: middle;
+}
+
+/* Provide some padding to the cells to separate the values some */
+.normal_td {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+/* Set the table to be as wide as the body */
+#search table {
+    /*width: 100%;*/
+}
+
+/* Add some white space to separate the follow/unfollow from the table */
+#add_show_link {
+    margin-top: 25px;
+}
+
+/* Make sure no padding is on the follow column so that it appears nicely */
+.unfollow {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    text-shadow: #fff 0px 0px 0;*/
+}
+.unfollow a {
+    display: block;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left: 5px;
+    padding-right: 5px;
+    color: #fff;
+    background-color: #82B1FA;
+    text-align: center;
+}
+.unfollow a:hover {
+    text-decoration: none;
+    background-color: #2078FF;
+}
+.follow a {
+    display: block;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left: 5px;
+    padding-right: 5px;
+    background-color: #eee;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    text-align: center;
+}
+.follow a:hover {
+    text-decoration: none;
+    background-color: #aaa;
+}
+.follow {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    text-shadow: #fff 0px 0px 0;*/
+}
+
+#first_col {
+}
+#second_col {
+    width: 214px;
+}
+#third_col {
+    width: 140px;
+    text-align: left;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+#fourth_col {
+    width: 140px;
+    text-align: left;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left: 5px;
+    padding-right: 5px;
+}

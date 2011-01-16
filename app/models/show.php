@@ -20,7 +20,66 @@ class Show extends AppModel {
     );
 
     // The output format of dates for shows
-    var $date_format = 'F j, Y';
+    var $date_format = 'M j, Y';
+
+    /**
+     * Returns all of the shows with data of the user (if the user is following 
+     * the show) and next and last air dates.
+     */
+    function get_all_with_follow($user_id) {
+        // Setup query parameters
+        $params = array(
+            'contain' => FALSE,
+            'conditions' => array(
+                'OR' => array(
+                    array('shows_users.user_id =' => $user_id),
+                    array('shows_users.user_id =' => null),
+                ),
+            ),
+            'link' => array(
+                'shows_users',
+            ),
+            'order' => array(
+                'Show.display_name ASC',
+            ),
+        );
+
+        // Perform query
+        $shows = $this->cache('all', $params);
+
+        // Add the next and last airings
+        foreach($shows as &$show) {
+            $show['Show']['next_air_date'] = $this->get_next_airing($show['Show']['id']);
+            $show['Show']['last_air_date'] = $this->get_last_airing($show['Show']['id']);
+        }
+
+        //debug($shows);
+
+        // Return final list
+        return $shows;
+    }
+
+    /**
+     * Returns the x most popular shows calculated from the number of users 
+     * following the show.
+     */
+    function most_popular($most_x_popular) {
+        // Setup query parameters
+        $params = array(
+            'contain' => FALSE,
+            'fields' => array(
+                'Show.display_name',
+                'Show.id',
+            ),
+            'limit' => $most_x_popular,
+            'order' => array(
+                'Show.display_name ASC',
+            ),
+        );
+
+        // Return the query of the shows
+        return $this->cache('all', $params);
+    }
 
     /**
      * Returns the information about a show including episodes
@@ -72,6 +131,14 @@ class Show extends AppModel {
         // Sanitize to be safe
         $show_id = Sanitize::clean($show_id);
         $user_id = Sanitize::clean($user_id);
+
+        // Increment the two counts
+        $this->id = $show_id;
+        $follow_count = $this->read('user_count', $show_id);
+        $this->saveField('user_count', $follow_count['Show']['user_count'] + 1);
+
+        $shows_count = $this->User->read('show_count', $user_id);
+        $this->User->saveField('show_count', $shows_count['User']['show_count'] + 1);
 
         // Mark as followed
         $this->habtmAdd('User', $show_id, $user_id);
@@ -184,6 +251,14 @@ class Show extends AppModel {
         $show_id = Sanitize::clean($show_id);
         $user_id = Sanitize::clean($user_id);
 
+        // Decrement the two counts
+        $this->id = $show_id;
+        $follow_count = $this->read('user_count', $show_id);
+        $this->saveField('user_count', $follow_count['Show']['user_count'] - 1);
+
+        $shows_count = $this->User->read('show_count', $user_id);
+        $this->User->saveField('show_count', $shows_count['User']['show_count'] - 1);
+
         // Delete the association
         $this->habtmDelete('User', $show_id, $user_id);
     }
@@ -215,6 +290,12 @@ class Show extends AppModel {
 
         // Perform query
         $shows = $this->cache('all', $params);
+
+        // Add in the next and last airings
+        foreach($shows as &$show) {
+            $show['Show']['next_air_date'] = $this->get_next_airing($show['Show']['id']);
+            $show['Show']['last_air_date'] = $this->get_last_airing($show['Show']['id']);
+        }
 
         return $shows;
     }

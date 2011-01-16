@@ -6,12 +6,12 @@ App::import('Sanitize');
 class User extends AppModel {
     // Set the association to the Show model
     var $hasAndBelongsToMany = array(
-        'Show',
-        'Friend' => array(
+        'Show' => array('counterCache' => TRUE),
+        /*'Friend' => array(
             'foreignKey' => 'user_id', 
             'associationForeignKey' => 'friend_id',
             'joinTable' => 'friends',
-        ),
+        ),*/
     );
 
     // Set the association to the activity model

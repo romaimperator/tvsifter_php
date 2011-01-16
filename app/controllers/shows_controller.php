@@ -20,6 +20,35 @@ class ShowsController extends AppController {
     }
 
     /**
+     * Returns x number of the most popular shows calculated from the number of 
+     * users that are following the show.
+     */
+    function popular($most_x_popular) {
+        // Return the sanitized shows
+        return Sanitize::clean($this->Show->most_popular($most_x_popular));
+    }
+
+
+    /**
+     * Displays the search page for shows also showing the most popular and a
+     * request show link. Allows users to follow shows.
+     */
+    function search_page() {
+        $user_id = $this->Auth->user('id');
+
+        // Retrieve all the shows and associated user follow data
+        $shows = $this->Show->get_all_with_follow($user_id);
+
+        // Setup for navbar
+        $this->set('selected', 'browse shows');
+        $this->set('no_shows_message', 'Uh Oh! It appears that this site has no shows! Please inform us about this problem.');
+
+        // Provide the show data to the view
+        $this->set(compact('shows'));
+    }
+    
+
+    /**
      * Displays the data about a specific show
      *
      * @param show_id can be an id or show name
@@ -62,11 +91,18 @@ class ShowsController extends AppController {
         $user_id = $this->Auth->user('id');
 
         if ($user_id) {
-            // Set layout to ajax because fix 404 response
-            $this->layout = 'ajax';
+            if ($this->params['isAjax']) {
+                // Set layout to ajax because fix 404 response
+                $this->layout = 'ajax';
 
-            // Mark the show as followed
-            $this->Show->follow($show_id, $user_id);
+                // Mark the show as followed
+                $this->Show->follow($show_id, $user_id);
+            } else {
+                // Mark the show as followed
+                $this->Show->follow($show_id, $user_id);
+
+                $this->redirect($this->referer());
+            }
         } else {
             $this->cakeError('error404');
         }
@@ -144,6 +180,15 @@ class ShowsController extends AppController {
             $this->set('selected', 'my shows'); // 2 being the number assigned to the Your Shows link in navbar.ctp
             $this->set('user_id', $user_id);
             $this->set('shows', $shows);
+
+            // Add the no shows results message
+            App::import('Helper', 'Html');
+            $html = new HtmlHelper();
+            $search_page_link = $html->link('Browse Shows', array('controller' => 'shows', 'action' => 'search_page'));
+            $this->set('no_shows_message', "It seems you are not following any shows. Go to ".$search_page_link." to see a list of the supported shows.");
+
+            // Render the page
+            $this->render('search_page');
         } else {
             $this->redirect(array('controller' => 'users', 'action' => 'login'));
         }
@@ -162,11 +207,18 @@ class ShowsController extends AppController {
 
         // Check if user is logged in
         if ($user_id) {
-            // Set layout to ajax because fix 404 response
-            $this->layout = 'ajax';
+            if ($this->params['isAjax']) {
+                // Set layout to ajax because fix 404 response
+                $this->layout = 'ajax';
 
-            // Unfollow
-            $this->Show->unfollow($show_id, $user_id);
+                // Unfollow
+                $this->Show->unfollow($show_id, $user_id);
+            } else {
+                // Unfollow
+                $this->Show->unfollow($show_id, $user_id);
+
+                $this->redirect($this->referer());
+            }
         } else {
             $this->cakeError('error404');
         }
@@ -204,13 +256,15 @@ class ShowsController extends AppController {
     // It grabs the tvrage.com episode list page for the $show_name and the
     // uses the show model's parser to store the show data.
     function refresh($show_name, $refresh=false) {
-        $show_name = Sanitize::clean($show_name);
         // Find the first show that matches the name given
         $params = array(
+            'contain' => false,
             'conditions' => array(
                 'Show.name' => $show_name,
             ),
-            'contain' => false,
+            'fields' => array(
+                'Show.name'
+            ),
         );
 
         // check if this show has already been acquired
@@ -228,7 +282,7 @@ class ShowsController extends AppController {
             $this->Show->set('display_name', $display_name);
             $this->Show->save();
             $show = $this->Show->find('first', $params);
-            $this->Show->read(null, $show['Show']['id']);
+            //$this->Show->read(null, $show['Show']['id']);
         }
 
         // If the refresh option is there or the html has not been cached yet,
@@ -238,9 +292,9 @@ class ShowsController extends AppController {
         // the utf8 decode is necessary because otherwise the show names
         // must be decoded twice before rendered to view
         $episode_list_html = utf8_decode(file_get_contents($show_addr));
-        $this->Show->save($show);
+        //$this->Show->save($show);
 
         // parse the received html and store the episode list
-        $this->set('response', Sanitize::clean($this->Show->parse_html($episode_list_html)));
+        $this->set('response', Sanitize::clean($this->Show->parse_html($episode_list_html, $this->Show->id)));
     }
 }
