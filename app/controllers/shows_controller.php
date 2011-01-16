@@ -20,6 +20,13 @@ class ShowsController extends AppController {
     }
 
     /**
+     * Displays page for the admin to add supported shows.
+     */
+    function add() {
+        
+    }
+
+    /**
      * Returns x number of the most popular shows calculated from the number of 
      * users that are following the show.
      */
