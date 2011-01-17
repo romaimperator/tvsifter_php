@@ -60,12 +60,12 @@ class ShowsController extends AppController {
      *
      * @param show_id can be an id or show name
      */
-    function view($show_id) {
+    function view($show_id, $season=0) {
         // Sanitize to be safe
         $show_id = Sanitize::clean($show_id);
 
         // Set the variable for the view
-        $this->set(compact('show_id'));
+        $this->set(compact('show_id', 'season'));
     }
     
 
@@ -74,7 +74,7 @@ class ShowsController extends AppController {
      *
      * @param show_id can be an id or show name
      */
-    function view_info($show_id) {
+    function view_info($show_id, $season=0) {
         if (isset($this->params['requested'])) {
             // Sanitize to be safe
             $show_id = Sanitize::clean($show_id);
@@ -82,7 +82,7 @@ class ShowsController extends AppController {
             $user_id = $this->Auth->user('id');
 
             // Query for the show info
-            $show_info = Sanitize::clean($this->Show->get_show_with_episode_user($show_id, $user_id));
+            $show_info = Sanitize::clean($this->Show->get_show_with_episode_user($show_id, $season, $user_id));
             
             // Return data
             return $show_info;

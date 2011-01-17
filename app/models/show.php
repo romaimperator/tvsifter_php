@@ -113,7 +113,7 @@ class Show extends AppModel {
      * Returns the information about a show including episodes and watched, 
      * owned data for a user.
      */
-    function get_show_with_episode_user($show_id, $user_id) {
+    function get_show_with_episode_user($show_id, $season, $user_id) {
         // Setup query parameters
         $params = array(
             'contain' => FALSE,
@@ -132,7 +132,7 @@ class Show extends AppModel {
         App::import('Model', 'Episode');
         $episode = new Episode();
         
-        $show_info['Episode'] = $episode->get_episodes_with_user($show_info['Show']['id'], $show_info['Show']['season_count'], $user_id);
+        $show_info['Episode'] = $episode->get_episodes_with_user($show_info['Show']['id'], $season, $user_id);
 
         return $show_info;
     }
