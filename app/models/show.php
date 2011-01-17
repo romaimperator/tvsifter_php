@@ -30,15 +30,6 @@ class Show extends AppModel {
         // Setup query parameters
         $params = array(
             'contain' => FALSE,
-            'conditions' => array(
-                'OR' => array(
-                    array('shows_users.user_id =' => $user_id),
-                    array('shows_users.user_id =' => null),
-                ),
-            ),
-            'link' => array(
-                'shows_users',
-            ),
             'order' => array(
                 'Show.display_name ASC',
             ),
@@ -47,8 +38,14 @@ class Show extends AppModel {
         // Perform query
         $shows = $this->cache('all', $params);
 
+        // Grab the user's follow data
+        App::import('Model', 'ShowsUsers');
+        $su = new ShowsUsers();
+        $show_ids = $su->get_show_ids($user_id);
+
         // Add the next and last airings
         foreach($shows as &$show) {
+            $show['Show']['followed'] = isset($show_ids[$show['Show']['id']]);
             $show['Show']['next_air_date'] = $this->get_next_airing($show['Show']['id']);
             $show['Show']['last_air_date'] = $this->get_last_airing($show['Show']['id']);
         }
@@ -93,8 +90,8 @@ class Show extends AppModel {
             'contain' => FALSE,
             'conditions' => array(
                 'OR' => array(
-                    'Show.id =' => $show_id,
-                    'Show.name =' => $show_id,
+                    array('Show.id =' => $show_id),
+                    array('Show.name =' => $show_id),
                 ),
             ),
         );
@@ -107,6 +104,35 @@ class Show extends AppModel {
         $episode = new Episode();
         
         $show_info['Episode'] = $episode->get_episodes($show_info['Show']['id'], $show_info['Show']['season_count']);
+
+        return $show_info;
+    }
+
+
+    /**
+     * Returns the information about a show including episodes and watched, 
+     * owned data for a user.
+     */
+    function get_show_with_episode_user($show_id, $user_id) {
+        // Setup query parameters
+        $params = array(
+            'contain' => FALSE,
+            'conditions' => array(
+                'OR' => array(
+                    array('Show.id =' => $show_id),
+                    array('Show.name =' => $show_id),
+                ),
+            ),
+        );
+
+        // Perform query
+        $show_info = $this->cache('first', $params);
+
+        // Grab the episodes
+        App::import('Model', 'Episode');
+        $episode = new Episode();
+        
+        $show_info['Episode'] = $episode->get_episodes_with_user($show_info['Show']['id'], $show_info['Show']['season_count'], $user_id);
 
         return $show_info;
     }
@@ -196,15 +222,15 @@ class Show extends AppModel {
         $params = array(
             'contain' => FALSE,
             'conditions' => array(
-                'shows_users.user_id =' => $user_id,
+                'ShowsUsers.user_id =' => $user_id,
             ),
             'fields' => array(
                 'Show.id',
             ),
             'link' => array(
-                'shows_users' => array(
+                'ShowsUsers' => array(
                     'conditions' => array(
-                        'shows_users.show_id = Show.id',
+                        'ShowsUsers.show_id = Show.id',
                     ),
                 ),
             ),
@@ -274,12 +300,12 @@ class Show extends AppModel {
         $params = array(
             'contain' => FALSE,
             'conditions' => array(
-                'shows_users.user_id =' => $user_id,
+                'ShowsUsers.user_id =' => $user_id,
             ),
             'link' => array(
-                'shows_users' => array(
+                'ShowsUsers' => array(
                     'conditions' => array(
-                        'shows_users.show_id = Show.id',
+                        'ShowsUsers.show_id = Show.id',
                     ),
                 ),
             ),
@@ -293,6 +319,7 @@ class Show extends AppModel {
 
         // Add in the next and last airings
         foreach($shows as &$show) {
+            $show['Show']['followed'] = TRUE;
             $show['Show']['next_air_date'] = $this->get_next_airing($show['Show']['id']);
             $show['Show']['last_air_date'] = $this->get_last_airing($show['Show']['id']);
         }

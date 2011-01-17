@@ -70,6 +70,48 @@ class Episode extends AppModel {
 
 
     /**
+     * Returns a list of episodes for the show and season numbers plus the data 
+     * associated with the user.
+     *
+     * @param show_id the id of the show
+     * @param season the season to return, 0 for all seasons
+     * @param user_id the id of the user to get data for
+     */
+    function get_episodes_with_user($show_id, $season, $user_id) {
+        // Setup query parameters
+        $params = array(
+            'contain' => FALSE,
+            'conditions' => array(
+                'Episode.show_id =' => $show_id,
+                'OR' => array(
+                    array('episode_users.user_id =' => $user_id),
+                    array('episode_users.user_id =' => NULL),
+                ),
+            ),
+            'link' => array(
+                'episode_users',
+            ),
+            'order' => array(
+                'Episode.season DESC',
+                'Episode.episode DESC',
+            ),
+        );
+
+        // Check about seasons
+        if ($season != 0) {
+            $params['conditions']['Episode.season'] = $season;
+        }
+
+        // Perform query
+        $episodes = $this->cache('all', $params);
+
+        //debug($episodes);
+
+        return $episodes;
+    }
+
+
+    /**
      * Returns a list of episodes with the air date filtered.
      * If the air date is the default of 0 or Jan 1970 then replace with the
      * text "Unknown"
