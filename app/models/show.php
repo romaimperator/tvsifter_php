@@ -93,8 +93,8 @@ class Show extends AppModel {
             'contain' => FALSE,
             'conditions' => array(
                 'OR' => array(
-                    'Show.id =' => $show_id,
-                    'Show.name =' => $show_id,
+                    array('Show.id =' => $show_id),
+                    array('Show.name =' => $show_id),
                 ),
             ),
         );
@@ -107,6 +107,37 @@ class Show extends AppModel {
         $episode = new Episode();
         
         $show_info['Episode'] = $episode->get_episodes($show_info['Show']['id'], $show_info['Show']['season_count']);
+
+        return $show_info;
+    }
+
+
+    /**
+     * Returns the information about a show including episodes and watched, 
+     * owned data for a user.
+     */
+    function get_show_with_episode_user($show_id, $user_id) {
+        // TODO: Implement
+
+        // Setup query parameters
+        $params = array(
+            'contain' => FALSE,
+            'conditions' => array(
+                'OR' => array(
+                    array('Show.id =' => $show_id),
+                    array('Show.name =' => $show_id),
+                ),
+            ),
+        );
+
+        // Perform query
+        $show_info = $this->cache('first', $params);
+
+        // Grab the episodes
+        App::import('Model', 'Episode');
+        $episode = new Episode();
+        
+        $show_info['Episode'] = $episode->get_episodes_with_user($show_info['Show']['id'], $show_info['Show']['season_count'], $user_id);
 
         return $show_info;
     }

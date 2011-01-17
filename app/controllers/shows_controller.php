@@ -79,8 +79,10 @@ class ShowsController extends AppController {
             // Sanitize to be safe
             $show_id = Sanitize::clean($show_id);
 
+            $user_id = $this->Auth->user('id');
+
             // Query for the show info
-            $show_info = Sanitize::clean($this->Show->get_show($show_id));
+            $show_info = Sanitize::clean($this->Show->get_show_with_episode_user($show_id, $user_id));
             
             // Return data
             return $show_info;

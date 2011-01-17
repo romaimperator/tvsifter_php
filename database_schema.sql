@@ -84,6 +84,7 @@ CREATE TABLE shows (
 CREATE FULLTEXT INDEX show_name ON shows (name);
 
 CREATE TABLE episode_users (
+    id integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
     user_id integer,
     episode_id integer,
     watched boolean,
