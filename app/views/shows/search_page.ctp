@@ -23,9 +23,9 @@
 
             <?php foreach($shows as $s): ?>
 
-                <?php $followed = isset($s['shows_users']['user_id']) && $s['shows_users']['user_id'] != NULL; ?>
+                <?php $followed = $s['Show']['followed']; ?>
 
-                <tr class="show <?php //echo ($followed) ? 'unfollow' : 'follow'; ?>" id="<?php echo $s['Show']['id']; ?>">
+                <tr class="show" id="<?php echo $s['Show']['id']; ?>">
 
                     <?php if ($followed): ?>
                         <td class="unfollow"><?php echo $html->link('Unfollow', array('controller' => 'shows', 'action' => 'unfollow', $s['Show']['id'])); ?></td>
