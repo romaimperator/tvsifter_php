@@ -32,8 +32,10 @@
                     <?php
                         if ($cur_time == date('Y-m-d')) {
                             echo 'Today';
+                        } else if ($cur_time == date('Y-m-d', strtotime('+1 day'))) {
+                            echo 'Tomorrow';
                         } else {
-                            echo 'in ', (strtotime($cur_time) - strtotime(date('Y-m-d'))) / 24 / 60 / 60, ' day(s)';
+                            echo date('l', strtotime($cur_time) );
                         }
                     ?>
                     

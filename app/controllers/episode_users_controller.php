@@ -52,6 +52,8 @@ class EpisodeUsersController extends AppController {
                 // Redirect to the page we came from
                 $this->redirect($this->referer());
             }
+        } else {
+            $this->redirect($this->Auth->loginAction);
         }
     }
 
@@ -79,6 +81,8 @@ class EpisodeUsersController extends AppController {
                 // Redirect to the page we came from
                 $this->redirect($this->referer());
             }
+        } else {
+            $this->redirect($this->Auth->loginAction);
         }
     }
 
@@ -108,6 +112,8 @@ class EpisodeUsersController extends AppController {
                 // Redirect to the page we came from
                 $this->redirect($this->referer());
             }
+        } else {
+            $this->redirect($this->Auth->loginAction);
         }
     }
 
@@ -135,6 +141,8 @@ class EpisodeUsersController extends AppController {
                 // Redirect to the page we came from
                 $this->redirect($this->referer());
             }
+        } else {
+            $this->redirect($this->Auth->loginAction);
         }
     }
 

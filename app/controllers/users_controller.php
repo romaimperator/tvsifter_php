@@ -22,7 +22,7 @@ class UsersController extends AppController {
             $this->set('email', $email);
             $this->set('selected', 'settings');
         } else {
-            $this->redirect(array('controller' => 'users', 'action' => 'login'));
+            $this->redirect($this->Auth->loginAction);
         }
     }
 
@@ -33,6 +33,11 @@ class UsersController extends AppController {
     function process_change_settings() {
         // Get the logged in user id
         $id = $this->Auth->user('id');
+
+        // Ensure that the user is still logged in
+        if ( ! $id) {
+            $this->redirect($this->Auth->loginAction);
+        }
 
         // Sanitize the submitted data
         $data = Sanitize::clean($this->data);
@@ -85,7 +90,7 @@ class UsersController extends AppController {
             $data['User']['password'] = $this->Auth->password($data['User']['clear_password']);
             if ($this->Auth->login($data)) {
                 // On success redirect to the proper page
-                $this->redirect($this->Auth->loginRedirect);
+                $this->redirect($this->Auth->redirect());
             } else {
                 // On error show error message
                 //debug('Login Failed');
