@@ -1,5 +1,5 @@
 <?php
-    $episodes = $this->requestAction(array('controller' => 'users', 'action' => 'get_upcoming_episodes'), array('pass' => array('+6 week')));
+    $episodes = $this->requestAction(array('controller' => 'users', 'action' => 'get_upcoming_episodes'), array('pass' => array('+1 week')));
 
     $date_format = 'F j, Y'; // example: January 20, 2010
 
@@ -32,8 +32,10 @@
                     <?php
                         if ($cur_time == date('Y-m-d')) {
                             echo 'Today';
+                        } else if ($cur_time == date('Y-m-d', strtotime('+1 day'))) {
+                            echo 'Tomorrow';
                         } else {
-                            echo 'in ', (strtotime($cur_time) - strtotime(date('Y-m-d'))) / 24 / 60 / 60, ' day(s)';
+                            echo date('l', strtotime($cur_time) );
                         }
                     ?>
                     

@@ -113,7 +113,7 @@ class ShowsController extends AppController {
                 $this->redirect($this->referer());
             }
         } else {
-            $this->cakeError('error404');
+            $this->redirect($this->Auth->loginAction);
         }
    }
             
@@ -199,7 +199,7 @@ class ShowsController extends AppController {
             // Render the page
             $this->render('search_page');
         } else {
-            $this->redirect(array('controller' => 'users', 'action' => 'login'));
+            $this->redirect($this->Auth->loginAction);
         }
     }
 
@@ -229,7 +229,7 @@ class ShowsController extends AppController {
                 $this->redirect($this->referer());
             }
         } else {
-            $this->cakeError('error404');
+            $this->redirect($this->Auth->loginAction);
         }
     }
     
