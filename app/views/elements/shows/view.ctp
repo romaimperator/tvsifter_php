@@ -1,5 +1,5 @@
 <?php
-    $show = $this->requestAction(array('controller' => 'shows', 'action' => 'view_info'), array('pass' => array($show_id)));
+    $show = $this->requestAction(array('controller' => 'shows', 'action' => 'view_info'), array('pass' => array($show_id, $season)));
 
     $current_season = $show['Show']['season_count'];
     $unaired = TRUE; // used to set where the horizontal rule goes
@@ -12,10 +12,12 @@
     <div id="season_links">
         <p>view seasons</p>
         <ul>
-            <li><a href="javascript:show_all()">all</a></li>
+            <!--<li><a href="javascript:show_all()">all</a></li>-->
+            <?php echo $html->link('all', array('controller' => 'shows', 'action' => 'view', $show['Show']['name'], 0)); ?>
             <?php for($i = 1; $i <= $current_season; $i++): ?>
                 
-                <li><a href="javascript:show(<?php echo $i; ?>)"><?php echo $i; ?></a></li>
+                <!--<li><a href="javascript:show(<?php //echo $i; ?>)"><?php //echo $i; ?></a></li>-->
+                <?php echo $html->link($i, array('controller' => 'shows', 'action' => 'view', $show['Show']['name'], $i)); ?>
 
             <?php endfor; ?>
         </ul>
