@@ -466,14 +466,14 @@ class User extends AppModel {
         // Set the query parameters
         $params = array(
             'conditions' => array(
-                'shows_users.user_id =' => $user_id,
+                'ShowsUsers.user_id =' => $user_id,
                 'Episode.air_date <' => date('Y-m-d', strtotime($date)),
                 'Episode.air_date >=' => date('Y-m-d', time()),
             ),
             'contain' => FALSE,
             'link' => array(
-                'shows_users' => array(
-                    'conditions' => 'shows_users.show_id = Episode.show_id',
+                'ShowsUsers' => array(
+                    'conditions' => 'ShowsUsers.show_id = Episode.show_id',
                 ),
                 'Show' => array(
                     'conditions' => 'Episode.show_id = Show.id',
